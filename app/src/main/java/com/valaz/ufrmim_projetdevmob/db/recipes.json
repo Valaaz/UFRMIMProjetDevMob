@@ -1,0 +1,278 @@
+{
+  "recipes": [
+    {
+      "id": 1,
+      "title": "Poulet au citron et à la crème aux champignons",
+      "description": "Une recette savoureuse de poulet mariné au citron et aux herbes, idéale pour un dîner léger.",
+      "prep_time": 15,
+      "cook_time": 30,
+      "servings": 4,
+      "image": "https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+      "ingredients": [
+        {
+          "name": "Filets de poulet",
+          "quantity": "600g"
+        },
+        {
+          "name": "Citron",
+          "quantity": "2"
+        },
+        {
+          "name": "Ail",
+          "quantity": "2 gousses"
+        },
+        {
+          "name": "Huile d'olive",
+          "quantity": "3 cuillères à soupe"
+        },
+        {
+          "name": "Thym",
+          "quantity": "1 cuillère à café"
+        },
+        {
+          "name": "Sel",
+          "quantity": "1 pincée"
+        },
+        {
+          "name": "Poivre",
+          "quantity": "1 pincée"
+        }
+      ],
+      "steps": [
+        "Presser les citrons pour obtenir le jus.",
+        "Mélanger le jus de citron, l'ail haché, le thym, l'huile d'olive, le sel et le poivre.",
+        "Mariner les filets de poulet dans cette préparation pendant 15 minutes.",
+        "Préchauffer une poêle à feu moyen et cuire les filets de poulet pendant 7 minutes de chaque côté."
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Soupe de légumes d'hiver",
+      "description": "Un bol réconfortant de soupe à base de légumes frais, parfait pour les journées froides.",
+      "prep_time": 20,
+      "cook_time": 40,
+      "servings": 6,
+      "image": "https://example.com/images/soupe-legumes-hiver.jpg",
+      "ingredients": [
+        {
+          "name": "Carottes",
+          "quantity": "500g"
+        },
+        {
+          "name": "Pommes de terre",
+          "quantity": "300g"
+        },
+        {
+          "name": "Poireaux",
+          "quantity": "2"
+        },
+        {
+          "name": "Oignon",
+          "quantity": "1"
+        },
+        {
+          "name": "Bouillon de légumes",
+          "quantity": "1 litre"
+        },
+        {
+          "name": "Crème fraîche",
+          "quantity": "100ml"
+        },
+        {
+          "name": "Sel",
+          "quantity": "1 pincée"
+        },
+        {
+          "name": "Poivre",
+          "quantity": "1 pincée"
+        }
+      ],
+      "steps": [
+        "Éplucher et couper les légumes en morceaux.",
+        "Faire revenir l'oignon haché dans une marmite avec un peu d'huile.",
+        "Ajouter les légumes, couvrir de bouillon et laisser mijoter pendant 40 minutes.",
+        "Mixer la soupe et ajouter la crème fraîche avant de servir."
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Tarte aux pommes",
+      "description": "Un classique de la pâtisserie française, facile à réaliser et toujours apprécié.",
+      "prep_time": 20,
+      "cook_time": 35,
+      "servings": 6,
+      "image": "https://example.com/images/tarte-aux-pommes.jpg",
+      "ingredients": [
+        {
+          "name": "Pâte feuilletée",
+          "quantity": "1 rouleau"
+        },
+        {
+          "name": "Pommes",
+          "quantity": "4"
+        },
+        {
+          "name": "Sucre",
+          "quantity": "50g"
+        },
+        {
+          "name": "Beurre",
+          "quantity": "30g"
+        },
+        {
+          "name": "Cannelle",
+          "quantity": "1 pincée"
+        }
+      ],
+      "steps": [
+        "Préchauffer le four à 180°C.",
+        "Étaler la pâte feuilletée dans un moule à tarte.",
+        "Éplucher, évider et trancher les pommes.",
+        "Disposer les tranches de pommes sur la pâte.",
+        "Parsemer de sucre, de cannelle et de noisettes de beurre.",
+        "Enfourner pendant 35 minutes."
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Ratatouille",
+      "description": "Une spécialité provençale composée de légumes mijotés avec des herbes aromatiques.",
+      "prep_time": 15,
+      "cook_time": 45,
+      "servings": 4,
+      "image": "https://example.com/images/ratatouille.jpg",
+      "ingredients": [
+        {
+          "name": "Courgettes",
+          "quantity": "2"
+        },
+        {
+          "name": "Aubergines",
+          "quantity": "2"
+        },
+        {
+          "name": "Poivrons rouges",
+          "quantity": "2"
+        },
+        {
+          "name": "Tomates",
+          "quantity": "4"
+        },
+        {
+          "name": "Oignon",
+          "quantity": "1"
+        },
+        {
+          "name": "Ail",
+          "quantity": "2 gousses"
+        },
+        {
+          "name": "Huile d'olive",
+          "quantity": "3 cuillères à soupe"
+        },
+        {
+          "name": "Herbes de Provence",
+          "quantity": "1 cuillère à soupe"
+        },
+        {
+          "name": "Sel",
+          "quantity": "1 pincée"
+        },
+        {
+          "name": "Poivre",
+          "quantity": "1 pincée"
+        }
+      ],
+      "steps": [
+        "Couper tous les légumes en dés.",
+        "Faire revenir l'oignon et l'ail hachés dans une cocotte avec l'huile d'olive.",
+        "Ajouter les légumes et les herbes de Provence.",
+        "Laisser mijoter à feu doux pendant 45 minutes en remuant de temps en temps."
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Brownies au chocolat",
+      "description": "Des brownies moelleux et fondants, parfaits pour les amateurs de chocolat.",
+      "prep_time": 15,
+      "cook_time": 25,
+      "servings": 8,
+      "image": "https://example.com/images/brownies-chocolat.jpg",
+      "ingredients": [
+        {
+          "name": "Chocolat noir",
+          "quantity": "200g"
+        },
+        {
+          "name": "Beurre",
+          "quantity": "150g"
+        },
+        {
+          "name": "Sucre",
+          "quantity": "150g"
+        },
+        {
+          "name": "Farine",
+          "quantity": "80g"
+        },
+        {
+          "name": "Oeufs",
+          "quantity": "3"
+        }
+      ],
+      "steps": [
+        "Préchauffer le four à 180°C.",
+        "Faire fondre le chocolat et le beurre au bain-marie.",
+        "Ajouter le sucre, les oeufs battus et la farine au mélange.",
+        "Verser la préparation dans un moule.",
+        "Enfourner pendant 25 minutes."
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Pâtes à la carbonara",
+      "description": "Une recette italienne classique avec des pâtes crémeuses au lardons et parmesan.",
+      "prep_time": 10,
+      "cook_time": 15,
+      "servings": 4,
+      "image": "https://example.com/images/pates-carbonara.jpg",
+      "ingredients": [
+        {
+          "name": "Spaghetti",
+          "quantity": "400g"
+        },
+        {
+          "name": "Lardons",
+          "quantity": "150g"
+        },
+        {
+          "name": "Crème fraîche",
+          "quantity": "100ml"
+        },
+        {
+          "name": "Parmesan râpé",
+          "quantity": "50g"
+        },
+        {
+          "name": "Jaunes d'œufs",
+          "quantity": "2"
+        },
+        {
+          "name": "Sel",
+          "quantity": "1 pincée"
+        },
+        {
+          "name": "Poivre",
+          "quantity": "1 pincée"
+        }
+      ],
+      "steps": [
+        "Faire cuire les pâtes dans une grande casserole d'eau salée.",
+        "Dans une poêle, faire revenir les lardons à feu moyen.",
+        "Mélanger la crème, les jaunes d'œufs et le parmesan dans un bol.",
+        "Égoutter les pâtes et les mélanger avec les lardons et la sauce.",
+        "Servir chaud avec un peu de parmesan sur le dessus."
+      ]
+    }
+  ]
+}

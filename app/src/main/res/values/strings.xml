@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">UFR MIM - Projet DevMob</string>
+    <string name="description_image_recette">Image de spaghettis avec des oeufs et du poivre</string>
 </resources>
