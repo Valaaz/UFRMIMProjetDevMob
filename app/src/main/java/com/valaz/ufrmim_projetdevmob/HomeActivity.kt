@@ -29,6 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.valaz.ufrmim_projetdevmob.ui.navigation.RecipesNavigationComponent
 import com.valaz.ufrmim_projetdevmob.ui.screens.DiscoverScreen
 import com.valaz.ufrmim_projetdevmob.ui.screens.MyRecipesScreen
 import com.valaz.ufrmim_projetdevmob.ui.theme.UFRMIMProjetDevMobTheme
@@ -92,7 +93,8 @@ fun TopAppBarNavigation() {
             )
         }
         HorizontalPager(state = pagerState) { page ->
-            if (page == 0) MyRecipesScreen(recipeState = recipeState) else DiscoverScreen()
+            RecipesNavigationComponent()
+//            if (page == 0) MyRecipesScreen(recipeState = recipeState) else DiscoverScreen()
         }
     }
 }

@@ -24,11 +24,11 @@ class RecipeViewModel : ViewModel() {
 
     init {
         viewModelScope.launch {
-            getMovieList()
+            getRecipeList()
         }
     }
 
-    fun getMovieList() {
+    fun getRecipeList() {
         recipeState = recipeState.copy(isLoading = true)
         StateManager.launchCoroutine {
             recipeState = try {
@@ -45,7 +45,7 @@ class RecipeViewModel : ViewModel() {
         }
     }
 
-    fun setSelectedMovie(recipe: Recipe) {
+    fun setSelectedRecipe(recipe: Recipe) {
         recipeState = recipeState.copy(
             selectedRecipe = recipe
         )

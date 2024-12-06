@@ -24,13 +24,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.valaz.ufrmim_projetdevmob.model.Recipe
+import com.valaz.ufrmim_projetdevmob.ui.components.RawButton
 import com.valaz.ufrmim_projetdevmob.ui.components.RecipeCard
 import com.valaz.ufrmim_projetdevmob.viewmodel.RecipeState
 import com.valaz.ufrmim_projetdevmob.viewmodel.RecipeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyRecipesScreen(recipeState: RecipeState) {
+fun MyRecipesScreen(recipeState: RecipeState, onDetails: (Recipe) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -76,7 +77,9 @@ fun MyRecipesScreen(recipeState: RecipeState) {
                 verticalArrangement = Arrangement.spacedBy(15.dp)
             ) {
                 items(recipes) { recipe ->
-                    RecipeCard(recipe)
+                    RawButton(onClick = { onDetails(recipe) }) {
+                        RecipeCard(recipe)
+                    }
                 }
             }
         }

@@ -11,10 +11,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -50,10 +53,11 @@ import com.valaz.ufrmim_projetdevmob.model.Ingredient
 import com.valaz.ufrmim_projetdevmob.model.Recipe
 import com.valaz.ufrmim_projetdevmob.ui.components.IngredientCard
 import com.valaz.ufrmim_projetdevmob.ui.components.RecipePreviewParameterProvider
+import com.valaz.ufrmim_projetdevmob.ui.components.StepCard
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RecipeDetailScreen(recipe: Recipe?) {
+fun RecipeDetailScreen(backAction: () -> Unit, recipe: Recipe?) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -65,7 +69,7 @@ fun RecipeDetailScreen(recipe: Recipe?) {
                     )
                 },
                 navigationIcon = {
-                    IconButton(onClick = {}) {
+                    IconButton(onClick = backAction) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = Icons.Default.ArrowBackIosNew.name,
@@ -123,10 +127,11 @@ fun RecipeDetailScreen(recipe: Recipe?) {
                     InformationsSection(recipe = recipe)
                     HorizontalDivider()
                     IngredientsSection(ingredients = recipe.ingredients)
+                    HorizontalDivider()
                 }
             } ?: run {
                 Text(
-                    "Aucun film à afficher", modifier = Modifier.padding(innerPadding),
+                    "Aucune recette à afficher", modifier = Modifier.padding(innerPadding),
                 )
             }
         }
@@ -144,10 +149,15 @@ fun InformationsSection(recipe: Recipe) {
         textAlign = TextAlign.Left,
         modifier = Modifier.fillMaxWidth()
     )
-    Column(verticalArrangement = Arrangement.spacedBy(5.dp), modifier = Modifier
-        .fillMaxWidth()
-        .padding(start = 15.dp)) {
-        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(spaceBtwIconText)) {
+    Column(
+        verticalArrangement = Arrangement.spacedBy(5.dp), modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = 15.dp)
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(spaceBtwIconText)
+        ) {
             Icon(
                 imageVector = Icons.Default.Timer,
                 contentDescription = Icons.Default.Timer.name,
@@ -157,7 +167,10 @@ fun InformationsSection(recipe: Recipe) {
                 text = "Temps de préparation : ${DecimalFormat("#.##").format(recipe.prep_time)} min",
             )
         }
-        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(spaceBtwIconText)) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(spaceBtwIconText)
+        ) {
             Icon(
                 imageVector = Icons.Default.Timer,
                 contentDescription = Icons.Default.Timer.name,
@@ -167,7 +180,10 @@ fun InformationsSection(recipe: Recipe) {
                 text = "Temps de cuisson : ${DecimalFormat("#.##").format(recipe.cook_time)} min",
             )
         }
-        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(spaceBtwIconText)) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(spaceBtwIconText)
+        ) {
             Icon(
                 imageVector = Icons.Default.Person,
                 contentDescription = Icons.Default.Person.name,
@@ -189,15 +205,31 @@ fun IngredientsSection(ingredients: List<Ingredient>) {
         textAlign = TextAlign.Left,
         modifier = Modifier.fillMaxWidth()
     )
-    LazyVerticalGrid(columns = GridCells.Fixed(3), modifier = Modifier.height(200.dp)) {
+    LazyVerticalGrid(columns = GridCells.Fixed(3), modifier = Modifier.height(400.dp)) {
         items(ingredients) { ingredient ->
             IngredientCard(ingredient = ingredient)
         }
     }
 }
 
-@Preview
+@Composable
+fun StepsSection(steps: List<String>) {
+    Text(
+        text = "Etapes",
+        style = MaterialTheme.typography.titleLarge,
+        fontWeight = FontWeight.Bold,
+        textAlign = TextAlign.Left,
+        modifier = Modifier.fillMaxWidth()
+    )
+    LazyColumn {
+        itemsIndexed(steps) { index, step ->
+            StepCard(step = step, stepNumber = index)
+        }
+    }
+}
+
+@Preview(showSystemUi = true)
 @Composable
 fun RecipeDetailScreenPreview(@PreviewParameter(RecipePreviewParameterProvider::class) recipe: Recipe) {
-    RecipeDetailScreen(recipe = recipe)
+    RecipeDetailScreen(backAction = {}, recipe = recipe)
 }
