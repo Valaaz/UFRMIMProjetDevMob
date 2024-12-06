@@ -96,8 +96,8 @@ object KtorClient {
         requestBody: In? = null,
     ): Out {
         //val baseUrl = "http://192.168.60.184:3000/"
-        val baseUrl = "http://10.11.28.11:3000/"
-//        val baseUrl = "http://192.168.1.96:3000/"
+//        val baseUrl = "http://10.11.28.11:3000/"
+        val baseUrl = "http://192.168.1.96:3000/"
         val url = baseUrl + endpoint
 
         val httpRequestBuilderWithoutBody: HttpRequestBuilder.() -> Unit = {}
