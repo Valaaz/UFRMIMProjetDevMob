@@ -103,7 +103,7 @@ fun RecipeDetailScreen(backAction: () -> Unit, recipe: Recipe?) {
                     modifier = Modifier
                         .fillMaxSize()
                         .verticalScroll(rememberScrollState())
-                        .padding(top = 10.dp, start = 10.dp, end = 10.dp),
+                        .padding(top = 10.dp, start = 10.dp, end = 10.dp, bottom = 100.dp),
                     verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.Top),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -128,6 +128,7 @@ fun RecipeDetailScreen(backAction: () -> Unit, recipe: Recipe?) {
                     HorizontalDivider()
                     IngredientsSection(ingredients = recipe.ingredients)
                     HorizontalDivider()
+                    StepsSection(steps = recipe.steps)
                 }
             } ?: run {
                 Text(
@@ -215,14 +216,14 @@ fun IngredientsSection(ingredients: List<Ingredient>) {
 @Composable
 fun StepsSection(steps: List<String>) {
     Text(
-        text = "Etapes",
+        text = "Étapes",
         style = MaterialTheme.typography.titleLarge,
         fontWeight = FontWeight.Bold,
         textAlign = TextAlign.Left,
         modifier = Modifier.fillMaxWidth()
     )
-    LazyColumn {
-        itemsIndexed(steps) { index, step ->
+    Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
+        steps.forEachIndexed { index, step ->
             StepCard(step = step, stepNumber = index)
         }
     }
