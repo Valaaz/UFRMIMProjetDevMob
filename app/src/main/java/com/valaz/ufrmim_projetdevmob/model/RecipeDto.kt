@@ -11,6 +11,7 @@ data class RecipeDto(
 @Serializable
 data class SingleRecipeDto(
     val id: Int,
+    val favorite: Boolean,
     val title: String,
     val description: String,
     val prep_time: Float,
