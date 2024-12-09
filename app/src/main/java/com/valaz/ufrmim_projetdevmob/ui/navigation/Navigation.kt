@@ -14,14 +14,14 @@ import com.valaz.ufrmim_projetdevmob.ui.screens.RecipeDetailScreen
 import com.valaz.ufrmim_projetdevmob.viewmodel.RecipeViewModel
 
 @Composable
-fun RecipesNavigationComponent(navController: NavHostController) {
+fun RecipesNavigationComponent(navController: NavHostController, recipeVM: RecipeViewModel) {
 //    val navController = navController
 //    val navController = rememberNavController()
-    val recipeVM = RecipeViewModel()
+    val recipeVM = recipeVM
 
     NavHost(navController = navController, startDestination = RecipesScreens.HomeScreen.name) {
         composable(RecipesScreens.HomeScreen.name) {
-            Home(navController = navController)
+            Home(navController = navController, recipeVM = recipeVM)
         }
 
         composable(RecipesScreens.MyRecipesScreen.name) {
@@ -53,7 +53,7 @@ fun RecipesNavigationComponent(navController: NavHostController) {
         composable(
             route = RecipesScreens.AddRecipeScreen.name
         ) {
-            AddRecipeScreen()
+            AddRecipeScreen({})
         }
     }
 }
