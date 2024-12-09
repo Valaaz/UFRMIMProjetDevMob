@@ -48,7 +48,8 @@ fun RecipeCard(recipe: Recipe?) {
     recipe?.let { recipe ->
         ElevatedCard(
             modifier = Modifier
-                .fillMaxWidth().wrapContentHeight()
+                .fillMaxWidth()
+                .wrapContentHeight()
         ) {
             Box(modifier = Modifier.fillMaxWidth()) {
                 Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -76,7 +77,10 @@ fun RecipeCard(recipe: Recipe?) {
                             )
                             PersonNumber(recipe = recipe)
                         }
-                        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(spaceBtwIconText)) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(spaceBtwIconText)
+                        ) {
                             Icon(
                                 imageVector = Icons.Default.Timer,
                                 contentDescription = Icons.Default.Timer.name,
@@ -90,7 +94,10 @@ fun RecipeCard(recipe: Recipe?) {
                                 } min", modifier = Modifier.padding(start = textPadding)
                             )
                         }
-                        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(spaceBtwIconText)) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(spaceBtwIconText)
+                        ) {
                             Icon(
                                 imageVector = Icons.Default.Timer,
                                 contentDescription = Icons.Default.Timer.name,
@@ -125,7 +132,8 @@ fun PersonNumber(recipe: Recipe?) {
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .padding(all = 4.dp)
-                .wrapContentHeight().align(Alignment.CenterHorizontally)
+                .wrapContentHeight()
+                .align(Alignment.CenterHorizontally)
         ) {
             Icon(
                 imageVector = Icons.Default.Person,
@@ -160,8 +168,17 @@ class RecipePreviewParameterProvider : PreviewParameterProvider<Recipe> {
             cook_time = 15f,
             servings = 3,
             imageUrl = "https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-            ingredients = listOf(Ingredient("Pâtes", "200g"), Ingredient("Pâtes", "200g"), Ingredient("Pâtes", "200g"), Ingredient("Pâtes", "200g"), Ingredient("Pâtes", "200g"), Ingredient("Pâtes", "200g"), Ingredient("Pâtes", "200g")),
+            ingredients = listOf(
+                Ingredient("Pâtes", "200g"),
+                Ingredient("Pâtes", "200g"),
+                Ingredient("Pâtes", "200g"),
+                Ingredient("Pâtes", "200g"),
+                Ingredient("Pâtes", "200g"),
+                Ingredient("Pâtes", "200g"),
+                Ingredient("Pâtes", "200g")
+            ),
             steps = listOf("Faire bouillir l'eau"),
+            favorite = false
         )
     )
 }

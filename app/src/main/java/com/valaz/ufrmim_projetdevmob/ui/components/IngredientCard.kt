@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
+import com.valaz.ufrmim_projetdevmob.PreviewProviders.IngredientPreviewParameterProvider
 import com.valaz.ufrmim_projetdevmob.R
 import com.valaz.ufrmim_projetdevmob.model.Ingredient
 
@@ -41,13 +42,4 @@ fun IngredientCard(ingredient: Ingredient) {
 @Composable
 fun IngredientCardPreview(@PreviewParameter(IngredientPreviewParameterProvider::class) ingredient: Ingredient) {
     IngredientCard(ingredient = ingredient)
-}
-
-class IngredientPreviewParameterProvider : PreviewParameterProvider<Ingredient> {
-    override val values = sequenceOf(
-        Ingredient(
-            name = "Pâtes",
-            quantity = "200g"
-        )
-    )
 }
