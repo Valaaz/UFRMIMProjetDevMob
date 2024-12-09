@@ -154,6 +154,7 @@ class RecipePreviewParameterProvider : PreviewParameterProvider<Recipe> {
     override val values = sequenceOf(
         Recipe(
             id = 1,
+            favorite = false,
             title = "Spaghettis à la bolognaise et aux légumes",
             description = "Coucou",
             prep_time = 12.5f,

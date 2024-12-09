@@ -49,7 +49,13 @@ fun TopAppBarNavigation(navController: NavHostController) {
                 onDetails = { recipe ->
                     recipeVM.setSelectedRecipe(recipe)
                     navController.navigate(RecipesScreens.RecipeDetailScreen.name)
-                }) else DiscoverRecipesScreen()
+                }) else DiscoverRecipesScreen(
+                    recipeState = recipeVM.stateFlow.collectAsState().value,
+                    onDetails = { recipe ->
+                        recipeVM.setSelectedRecipe(recipe)
+                        navController.navigate(RecipesScreens.RecipeDetailScreen.name)
+                }
+            )
         }
     }
 }
