@@ -34,7 +34,13 @@ fun RecipesNavigationComponent(navController: NavHostController, recipeVM: Recip
         }
 
         composable(RecipesScreens.DiscoverRecipesScreen.name) {
-            DiscoverRecipesScreen()
+            DiscoverRecipesScreen(
+                recipeState = recipeVM.stateFlow.collectAsState().value,
+                onDetails = { recipe ->
+                    recipeVM.setSelectedRecipe(recipe)
+                    navController.navigate(RecipesScreens.RecipeDetailScreen.name)
+                }
+            )
         }
 
         composable(
