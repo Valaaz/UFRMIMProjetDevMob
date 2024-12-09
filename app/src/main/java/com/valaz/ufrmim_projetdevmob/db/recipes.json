@@ -2,6 +2,7 @@
   "recipes": [
     {
       "id": 1,
+      "favorite": true,
       "title": "Poulet au citron et à la crème aux champignons",
       "description": "Une recette savoureuse de poulet mariné au citron et aux herbes, idéale pour un dîner léger.",
       "prep_time": 15,
@@ -47,6 +48,7 @@
     },
     {
       "id": 2,
+      "favorite": false,
       "title": "Soupe de légumes d'hiver",
       "description": "Un bol réconfortant de soupe à base de légumes frais, parfait pour les journées froides.",
       "prep_time": 20,
@@ -96,6 +98,7 @@
     },
     {
       "id": 3,
+      "favorite": false,
       "title": "Tarte aux pommes",
       "description": "Un classique de la pâtisserie française, facile à réaliser et toujours apprécié.",
       "prep_time": 20,
@@ -135,6 +138,7 @@
     },
     {
       "id": 4,
+      "favorite": false,
       "title": "Ratatouille",
       "description": "Une spécialité provençale composée de légumes mijotés avec des herbes aromatiques.",
       "prep_time": 15,
@@ -192,6 +196,7 @@
     },
     {
       "id": 5,
+      "favorite": false,
       "title": "Brownies au chocolat",
       "description": "Des brownies moelleux et fondants, parfaits pour les amateurs de chocolat.",
       "prep_time": 15,
@@ -230,6 +235,7 @@
     },
     {
       "id": 6,
+      "favorite": false,
       "title": "Pâtes à la carbonara",
       "description": "Une recette italienne classique avec des pâtes crémeuses au lardons et parmesan.",
       "prep_time": 10,

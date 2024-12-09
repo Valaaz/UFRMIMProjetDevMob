@@ -2,6 +2,7 @@ package com.valaz.ufrmim_projetdevmob.model
 
 data class Recipe(
     val id: Int,
+    val favorite: Boolean,
     val title: String,
     val description: String,
     val prep_time: Float,

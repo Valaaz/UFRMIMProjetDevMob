@@ -10,6 +10,7 @@ class RecipeMapper {
         return with(recipeDto) {
             Recipe(
                 id = id,
+                favorite = favorite,
                 title = title,
                 description = description,
                 prep_time = prep_time.toFloat(),
