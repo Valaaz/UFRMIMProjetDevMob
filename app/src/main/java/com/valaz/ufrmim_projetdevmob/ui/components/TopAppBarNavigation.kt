@@ -20,11 +20,11 @@ import com.valaz.ufrmim_projetdevmob.viewmodel.RecipeViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun TopAppBarNavigation(navController: NavHostController) {
+fun TopAppBarNavigation(navController: NavHostController, recipeVM: RecipeViewModel) {
     Column(modifier = Modifier.fillMaxWidth()) {
         val pagerState = rememberPagerState(pageCount = { 2 })
         val coroutineScope = rememberCoroutineScope()
-        val recipeVM = RecipeViewModel()
+        val recipeVM = recipeVM
 
         TabRow(selectedTabIndex = pagerState.currentPage) {
             Tab(

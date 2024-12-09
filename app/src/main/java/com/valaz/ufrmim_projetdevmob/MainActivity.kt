@@ -26,6 +26,7 @@ import com.valaz.ufrmim_projetdevmob.ui.components.TopAppBarNavigation
 import com.valaz.ufrmim_projetdevmob.ui.navigation.RecipesNavigationComponent
 import com.valaz.ufrmim_projetdevmob.ui.navigation.RecipesScreens
 import com.valaz.ufrmim_projetdevmob.ui.theme.UFRMIMProjetDevMobTheme
+import com.valaz.ufrmim_projetdevmob.viewmodel.RecipeViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,14 +35,15 @@ class MainActivity : ComponentActivity() {
         setContent {
             UFRMIMProjetDevMobTheme {
                 val navController = rememberNavController()
-                RecipesNavigationComponent(navController = navController)
+                val recipeVM = RecipeViewModel()
+                RecipesNavigationComponent(navController = navController, recipeVM = recipeVM)
             }
         }
     }
 }
 
 @Composable
-fun Home(navController: NavHostController) {
+fun Home(navController: NavHostController, recipeVM: RecipeViewModel) {
     var selectedTab by remember { mutableIntStateOf(0) }
 
     Scaffold(
@@ -54,7 +56,7 @@ fun Home(navController: NavHostController) {
         },
         modifier = Modifier.windowInsetsPadding(WindowInsets.statusBars),
         topBar = {
-            TopAppBarNavigation(navController = navController)
+            TopAppBarNavigation(navController = navController, recipeVM = recipeVM)
         },
     ) { scaffoldPadding ->
         Modifier.padding(scaffoldPadding)
