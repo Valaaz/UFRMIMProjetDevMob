@@ -6,9 +6,40 @@ import com.valaz.ufrmim_projetdevmob.dao.RecipeDao
 import com.valaz.ufrmim_projetdevmob.model.Ingredient
 import com.valaz.ufrmim_projetdevmob.model.Recipe
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class RecipeViewModel(private val recipeDao: RecipeDao) : ViewModel() {
+    var selectedRecipeId: Int = -1
+
+    fun getRecipeList(): Flow<List<Recipe>> {
+        return recipeDao.getRecipes()
+    }
+
+    fun getRecipeById(recipeId: Int): Flow<Recipe> {
+        return recipeDao.getRecipeById(recipeId)
+    }
+
+    fun getSelectedRecipe(): Flow<Recipe> {
+        return getRecipeById(selectedRecipeId)
+    }
+
+    fun setSelectedRecipe(recipeId: Int) {
+        selectedRecipeId = recipeId
+    }
+
+    fun addRecipe(recipe: Recipe) {
+        viewModelScope.launch {
+            recipeDao.insertRecipe(recipe)
+        }
+    }
+
+    fun addAllRecipes(recipes: List<Recipe>) {
+        for (recipe: Recipe in recipes) {
+            addRecipe(recipe)
+        }
+    }
+
     fun init() {
         val recipes = listOf(
             Recipe(
@@ -164,26 +195,6 @@ class RecipeViewModel(private val recipeDao: RecipeDao) : ViewModel() {
             recipeDao.clearAll()
         }
         addAllRecipes(recipes)
-    }
-
-    fun getRecipeList(): Flow<List<Recipe>> {
-        return recipeDao.getRecipes()
-    }
-
-    fun getSelectedRecipe(): Recipe {
-        return TODO("Provide the return value")
-    }
-
-    fun addRecipe(recipe: Recipe) {
-        viewModelScope.launch {
-            recipeDao.insertRecipe(recipe)
-        }
-    }
-
-    fun addAllRecipes(recipes: List<Recipe>) {
-        for (recipe: Recipe in recipes) {
-            addRecipe(recipe)
-        }
     }
 
     fun init2() {

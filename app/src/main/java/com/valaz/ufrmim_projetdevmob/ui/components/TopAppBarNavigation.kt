@@ -8,11 +8,9 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import com.valaz.ufrmim_projetdevmob.ui.navigation.RecipesNavigationComponent
 import com.valaz.ufrmim_projetdevmob.ui.navigation.RecipesScreens
 import com.valaz.ufrmim_projetdevmob.ui.screens.DiscoverRecipesScreen
 import com.valaz.ufrmim_projetdevmob.ui.screens.MyRecipesScreen
@@ -47,10 +45,12 @@ fun TopAppBarNavigation(navController: NavHostController, recipeVM: RecipeViewMo
             if (page == 0) MyRecipesScreen(
                 recipeVM = recipeVM,
                 onDetails = { recipe ->
+                    recipeVM.setSelectedRecipe(recipe.id ?: -1)
                     navController.navigate(RecipesScreens.RecipeDetailScreen.name)
                 }) else DiscoverRecipesScreen(
                 recipeVM = recipeVM,
                     onDetails = { recipe ->
+                        recipeVM.setSelectedRecipe(recipe.id ?: -1)
                         navController.navigate(RecipesScreens.RecipeDetailScreen.name)
                 }
             )
