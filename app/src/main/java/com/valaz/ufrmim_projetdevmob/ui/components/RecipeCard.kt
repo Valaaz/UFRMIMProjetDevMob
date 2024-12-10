@@ -5,15 +5,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Circle
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material3.Card
@@ -26,7 +23,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -89,7 +85,7 @@ fun RecipeCard(recipe: Recipe?) {
                             Text(
                                 text = "Temps de préparation : ${
                                     DecimalFormat("#.##").format(
-                                        recipe.prep_time
+                                        recipe.prepTime
                                     )
                                 } min", modifier = Modifier.padding(start = textPadding)
                             )
@@ -104,7 +100,7 @@ fun RecipeCard(recipe: Recipe?) {
                                 modifier = Modifier.size(10.dp)
                             )
                             Text(
-                                text = "Temps de cuisson : ${DecimalFormat("#.##").format(recipe.cook_time)} min",
+                                text = "Temps de cuisson : ${DecimalFormat("#.##").format(recipe.cookTime)} min",
                                 modifier = Modifier.padding(start = textPadding)
                             )
                         }
@@ -165,8 +161,8 @@ class RecipePreviewParameterProvider : PreviewParameterProvider<Recipe> {
             favorite = false,
             title = "Spaghettis à la bolognaise et aux légumes",
             description = "Coucou",
-            prep_time = 12.5f,
-            cook_time = 15f,
+            prepTime = 12.5f,
+            cookTime = 15f,
             servings = 3,
             imageUrl = "https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
             ingredients = listOf(

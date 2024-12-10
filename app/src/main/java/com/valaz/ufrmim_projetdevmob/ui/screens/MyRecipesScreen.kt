@@ -26,12 +26,11 @@ import androidx.compose.ui.unit.dp
 import com.valaz.ufrmim_projetdevmob.model.Recipe
 import com.valaz.ufrmim_projetdevmob.ui.components.RawButton
 import com.valaz.ufrmim_projetdevmob.ui.components.RecipeCard
-import com.valaz.ufrmim_projetdevmob.viewmodel.RecipeState
 import com.valaz.ufrmim_projetdevmob.viewmodel.RecipeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyRecipesScreen(recipeState: RecipeState, onDetails: (Recipe) -> Unit) {
+fun MyRecipesScreen(recipeVM: RecipeViewModel, onDetails: (Recipe) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -63,26 +62,26 @@ fun MyRecipesScreen(recipeState: RecipeState, onDetails: (Recipe) -> Unit) {
         ) {
 
         }
-        if (recipeState.isLoading) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
-            }
-        } else {
-            val recipes = recipeState.recipes
+//        if (recipeState.isLoading) {
+//            Box(
+//                modifier = Modifier.fillMaxSize(),
+//                contentAlignment = Alignment.Center
+//            ) {
+//                CircularProgressIndicator()
+//            }
+//        } else {
+            val recipes = recipeVM.getRecipeList().collectAsState(initial = emptyList())
             // val filteredList: List<Recipe> = recipes.filter { it.title.lowercase().contains(searchValue.text.lowercase()) }
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(15.dp)
             ) {
-                items(recipes) { recipe ->
+                items(recipes.value) { recipe ->
                     RawButton(onClick = { onDetails(recipe) }) {
                         RecipeCard(recipe)
                     }
                 }
             }
-        }
+//        }
     }
 }
 

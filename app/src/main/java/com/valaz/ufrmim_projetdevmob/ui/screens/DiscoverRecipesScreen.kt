@@ -24,11 +24,11 @@ import androidx.compose.ui.unit.dp
 import com.valaz.ufrmim_projetdevmob.model.Recipe
 import com.valaz.ufrmim_projetdevmob.ui.components.RawButton
 import com.valaz.ufrmim_projetdevmob.ui.components.RecipeCard
-import com.valaz.ufrmim_projetdevmob.viewmodel.RecipeState
+import com.valaz.ufrmim_projetdevmob.viewmodel.RecipeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DiscoverRecipesScreen(recipeState: RecipeState, onDetails: (Recipe) -> Unit) {
+fun DiscoverRecipesScreen(recipeVM: RecipeViewModel, onDetails: (Recipe) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -60,25 +60,25 @@ fun DiscoverRecipesScreen(recipeState: RecipeState, onDetails: (Recipe) -> Unit)
         ) {
 
         }
-        if (recipeState.isLoading) {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
-            }
-        } else {
-            val recipes = recipeState.recipes
-            // val filteredList: List<Recipe> = recipes.filter { it.title.lowercase().contains(searchValue.text.lowercase()) }
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(15.dp)
-            ) {
-                items(recipes) { recipe ->
-                    RawButton(onClick = { onDetails(recipe) }) {
-                        RecipeCard(recipe)
-                    }
-                }
-            }
-        }
+//        if (recipeState.isLoading) {
+//            Box(
+//                modifier = Modifier.fillMaxSize(),
+//                contentAlignment = Alignment.Center
+//            ) {
+//                CircularProgressIndicator()
+//            }
+//        } else {
+//            val recipes = recipeState.recipes
+//            // val filteredList: List<Recipe> = recipes.filter { it.title.lowercase().contains(searchValue.text.lowercase()) }
+//            LazyColumn(
+//                verticalArrangement = Arrangement.spacedBy(15.dp)
+//            ) {
+//                items(recipes) { recipe ->
+//                    RawButton(onClick = { onDetails(recipe) }) {
+//                        RecipeCard(recipe)
+//                    }
+//                }
+//            }
+//        }
     }
 }

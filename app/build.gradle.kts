@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.compose.compiler)
     kotlin("plugin.serialization")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -80,5 +81,8 @@ dependencies {
     implementation("io.coil-kt.coil3:coil-network-okhttp:3.0.4")
     implementation(libs.navigation.compose)
     implementation("com.russhwolf:multiplatform-settings-no-arg:1.2.0")
-
+    implementation("com.google.code.gson:gson:2.8.8")
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
 }

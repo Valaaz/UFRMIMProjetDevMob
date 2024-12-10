@@ -1,4 +1,4 @@
-package com.valaz.ufrmim_projetdevmob.PreviewProviders
+package com.valaz.ufrmim_projetdevmob.preview_providers
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.valaz.ufrmim_projetdevmob.model.Ingredient

@@ -19,9 +19,12 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import androidx.room.Room
+import com.valaz.ufrmim_projetdevmob.db.AppDatabase
+import com.valaz.ufrmim_projetdevmob.model.Ingredient
+import com.valaz.ufrmim_projetdevmob.model.Recipe
 import com.valaz.ufrmim_projetdevmob.ui.components.TopAppBarNavigation
 import com.valaz.ufrmim_projetdevmob.ui.navigation.RecipesNavigationComponent
 import com.valaz.ufrmim_projetdevmob.ui.navigation.RecipesScreens
@@ -34,8 +37,14 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             UFRMIMProjetDevMobTheme {
+                val db = Room.databaseBuilder(
+                    applicationContext,
+                    AppDatabase::class.java, "cook-database"
+                ).fallbackToDestructiveMigration().build()
+
                 val navController = rememberNavController()
-                val recipeVM = RecipeViewModel()
+                val recipeVM = RecipeViewModel(db.recipeDao())
+                recipeVM.init()
                 RecipesNavigationComponent(navController = navController, recipeVM = recipeVM)
             }
         }

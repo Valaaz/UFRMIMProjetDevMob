@@ -24,25 +24,6 @@ fun RecipesNavigationComponent(navController: NavHostController, recipeVM: Recip
             Home(navController = navController, recipeVM = recipeVM)
         }
 
-        composable(RecipesScreens.MyRecipesScreen.name) {
-            MyRecipesScreen(
-                recipeState = recipeVM.stateFlow.collectAsState().value,
-                onDetails = { recipe ->
-                    recipeVM.setSelectedRecipe(recipe)
-                    navController.navigate(RecipesScreens.RecipeDetailScreen.name)
-                })
-        }
-
-        composable(RecipesScreens.DiscoverRecipesScreen.name) {
-            DiscoverRecipesScreen(
-                recipeState = recipeVM.stateFlow.collectAsState().value,
-                onDetails = { recipe ->
-                    recipeVM.setSelectedRecipe(recipe)
-                    navController.navigate(RecipesScreens.RecipeDetailScreen.name)
-                }
-            )
-        }
-
         composable(
             route = RecipesScreens.RecipeDetailScreen.name
         ) {
@@ -52,7 +33,7 @@ fun RecipesNavigationComponent(navController: NavHostController, recipeVM: Recip
                         navController.popBackStack()
                     }
                 },
-                recipe = recipeVM.stateFlow.collectAsState().value.selectedRecipe
+                recipe = recipeVM.getSelectedRecipe()
             )
         }
 
