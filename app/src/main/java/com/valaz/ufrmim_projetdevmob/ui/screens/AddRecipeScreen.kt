@@ -9,15 +9,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AddPhotoAlternate
 import androidx.compose.material.icons.filled.ArrowBackIosNew
-import androidx.compose.material.icons.filled.InsertPhoto
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Timer
 import androidx.compose.material3.Button
@@ -32,6 +30,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,6 +42,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.valaz.ufrmim_projetdevmob.model.Ingredient
+import com.valaz.ufrmim_projetdevmob.ui.components.AddIngredientDialog
 import com.valaz.ufrmim_projetdevmob.ui.components.AddedIngredientCard
 import com.valaz.ufrmim_projetdevmob.ui.components.NumberInputField
 import com.valaz.ufrmim_projetdevmob.ui.components.StepCard
@@ -81,6 +84,7 @@ fun AddRecipeScreen(backAction: () -> Unit) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
                     .padding(top = 10.dp, start = 10.dp, end = 10.dp, bottom = 10.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.Top),
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -172,6 +176,9 @@ fun InformationsSection() {
 @Composable
 fun IngredientsSection() {
     var ingredients: MutableList<Ingredient> = mutableListOf<Ingredient>()
+    var openAddIngredientDialog by remember {
+        mutableStateOf(false)
+    }
 
     Column {
         Text(
@@ -181,16 +188,19 @@ fun IngredientsSection() {
             textAlign = TextAlign.Left,
             modifier = Modifier.fillMaxWidth()
         )
-        LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(15.dp)
+        Column(
+            verticalArrangement = Arrangement.spacedBy(15.dp),
         ) {
-            items(ingredients) { ingredient ->
+            ingredients.forEach { ingredient ->
                 AddedIngredientCard(ingredient = ingredient)
             }
         }
-        Button(onClick = { /*TODO*/ }, modifier = Modifier.align(Alignment.End)) {
+        Button(onClick = { openAddIngredientDialog = true }, modifier = Modifier.align(Alignment.End)) {
             Text("Ajouter un ingrédient")
         }
+
+        if (openAddIngredientDialog)
+            AddIngredientDialog()
     }
 }
 
@@ -226,7 +236,9 @@ fun PhotoSection() {
         textAlign = TextAlign.Left,
         modifier = Modifier.fillMaxWidth()
     )
-    IconButton(onClick = { /*TODO*/ }, modifier = Modifier.border(width = 1.dp, Color.Black, shape = RoundedCornerShape(10.dp)).size(250.dp)) {
+    IconButton(onClick = { /*TODO*/ }, modifier = Modifier
+        .border(width = 1.dp, Color.Black, shape = RoundedCornerShape(10.dp))
+        .size(250.dp)) {
         Icon(imageVector = Icons.Default.AddPhotoAlternate, contentDescription = Icons.Default.AddPhotoAlternate.name, modifier = Modifier.size(70.dp))
     }
 }

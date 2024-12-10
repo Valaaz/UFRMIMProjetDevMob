@@ -179,7 +179,6 @@ class RecipePreviewParameterProvider : PreviewParameterProvider<Recipe> {
                 Ingredient("Pâtes", "200g")
             ),
             steps = listOf("Faire bouillir l'eau"),
-            favorite = false
         )
     )
 }
