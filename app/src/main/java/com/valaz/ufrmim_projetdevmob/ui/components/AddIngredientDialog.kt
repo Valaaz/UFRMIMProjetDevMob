@@ -13,16 +13,28 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.valaz.ufrmim_projetdevmob.model.Ingredient
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddIngredientDialog() {
-    Dialog(onDismissRequest = { /*TODO*/ }) {
+fun AddIngredientDialog(ingredient: Ingredient? = null, onDismissRequest: () -> Unit, onConfirmation: (Ingredient) -> Unit) {
+    var ingredientName by remember {
+        mutableStateOf(ingredient?.name ?: "")
+    }
+    var ingredientQuantity by remember {
+        mutableStateOf(ingredient?.quantity ?: "")
+    }
+
+    Dialog(onDismissRequest = onDismissRequest) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -34,21 +46,40 @@ fun AddIngredientDialog() {
                 verticalArrangement = Arrangement.spacedBy(15.dp)
             ) {
                 CenterAlignedTopAppBar(title = { Text(text = "Ajouter un ingrédient") })
-                OutlinedTextField(value = "", onValueChange = {}, placeholder = { Text("Nom") })
                 OutlinedTextField(
-                    value = "",
-                    onValueChange = {},
-                    placeholder = { Text("Quantité") })
+                    value = ingredientName,
+                    onValueChange = { ingredientName = it },
+                    label = {
+                        Text(
+                            text = "Nom"
+                        )
+                    })
+                OutlinedTextField(
+                    value = ingredientQuantity,
+                    onValueChange = { ingredientQuantity = it },
+                    label = {
+                        Text(
+                            text = "Quantité"
+                        )
+                    })
                 Row(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(20.dp)
                 ) {
-                    Button(onClick = { /*TODO*/ }) {
+                    Button(onClick = onDismissRequest) {
                         Text("Annuler")
                     }
-                    Button(onClick = { /*TODO*/ }) {
+                    Button(onClick = {
+                        if (ingredientName.isNotBlank() && ingredientQuantity.isNotBlank()) {
+                            val newIngredient = Ingredient(
+                                name = ingredientName,
+                                quantity = ingredientQuantity
+                            )
+                            onConfirmation(newIngredient)
+                        }
+                    }) {
                         Text("Valider")
                     }
                 }
@@ -60,5 +91,5 @@ fun AddIngredientDialog() {
 @Preview
 @Composable
 fun AddIngredientDialogPreview() {
-    AddIngredientDialog()
+    AddIngredientDialog(onDismissRequest = {}, onConfirmation = {})
 }

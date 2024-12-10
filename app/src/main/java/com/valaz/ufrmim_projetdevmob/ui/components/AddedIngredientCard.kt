@@ -22,9 +22,15 @@ import com.valaz.ufrmim_projetdevmob.PreviewProviders.IngredientPreviewParameter
 import com.valaz.ufrmim_projetdevmob.model.Ingredient
 
 @Composable
-fun AddedIngredientCard(ingredient: Ingredient) {
+fun AddedIngredientCard(
+    ingredient: Ingredient,
+    deleteIngredient: (Ingredient) -> Unit,
+    updateIngredient: (Ingredient) -> Unit
+) {
     RawButton(
-        onClick = {}, modifier = Modifier
+        onClick = {
+            updateIngredient(ingredient)
+        }, modifier = Modifier
             .height(30.dp)
             .fillMaxWidth()
     ) {
@@ -33,14 +39,18 @@ fun AddedIngredientCard(ingredient: Ingredient) {
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             NameAndQuantity(ingredient = ingredient, modifier = Modifier.weight(1f))
-            DeleteIcon()
+            DeleteIcon(deleteIngredient = { deleteIngredient(ingredient) })
         }
     }
 }
 
 @Composable
 fun NameAndQuantity(ingredient: Ingredient, modifier: Modifier) {
-    Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(20.dp)) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(20.dp)
+    ) {
         Text(ingredient.name)
         Icon(imageVector = Icons.Default.Close, contentDescription = Icons.Default.Close.name)
         Text(ingredient.quantity)
@@ -48,10 +58,14 @@ fun NameAndQuantity(ingredient: Ingredient, modifier: Modifier) {
 }
 
 @Composable
-fun DeleteIcon() {
-    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(5.dp), modifier = Modifier.padding(end = 5.dp)) {
+fun DeleteIcon(deleteIngredient: () -> Unit) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(5.dp),
+        modifier = Modifier.padding(end = 5.dp)
+    ) {
         VerticalDivider()
-        IconButton(onClick = { /*TODO*/ }) {
+        IconButton(onClick = { deleteIngredient() }) {
             Icon(
                 imageVector = Icons.Outlined.DeleteForever,
                 contentDescription = Icons.Outlined.DeleteForever.name
@@ -63,5 +77,5 @@ fun DeleteIcon() {
 @Preview
 @Composable
 fun AddedIngredientCardPreview(@PreviewParameter(IngredientPreviewParameterProvider::class) ingredient: Ingredient) {
-    AddedIngredientCard(ingredient = ingredient)
+    AddedIngredientCard(ingredient = ingredient, deleteIngredient = {}, updateIngredient = {})
 }

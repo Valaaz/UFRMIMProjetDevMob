@@ -175,10 +175,9 @@ fun InformationsSection() {
 
 @Composable
 fun IngredientsSection() {
-    var ingredients: MutableList<Ingredient> = mutableListOf<Ingredient>()
-    var openAddIngredientDialog by remember {
-        mutableStateOf(false)
-    }
+    var ingredients by remember { mutableStateOf(mutableListOf<Ingredient>()) }
+    var openAddIngredientDialog by remember { mutableStateOf(false) }
+    var selectedIngredient by remember { mutableStateOf<Ingredient?>(null) }
 
     Column {
         Text(
@@ -192,15 +191,46 @@ fun IngredientsSection() {
             verticalArrangement = Arrangement.spacedBy(15.dp),
         ) {
             ingredients.forEach { ingredient ->
-                AddedIngredientCard(ingredient = ingredient)
+                AddedIngredientCard(
+                    ingredient = ingredient,
+                    deleteIngredient = { ingredientToRemove ->
+                        ingredients =
+                            ingredients.toMutableList().apply { remove(ingredientToRemove) }
+                    },
+                    updateIngredient = {
+                        selectedIngredient = ingredient
+                        openAddIngredientDialog = true
+                    })
             }
         }
-        Button(onClick = { openAddIngredientDialog = true }, modifier = Modifier.align(Alignment.End)) {
+        Button(
+            onClick = {
+                selectedIngredient = null
+                openAddIngredientDialog = true
+            },
+            modifier = Modifier.align(Alignment.End)
+        ) {
             Text("Ajouter un ingrédient")
         }
 
-        if (openAddIngredientDialog)
-            AddIngredientDialog()
+        if (openAddIngredientDialog) {
+            AddIngredientDialog(
+                ingredient = selectedIngredient,
+                onDismissRequest = { openAddIngredientDialog = false },
+                onConfirmation = { newIngredient ->
+                    if (selectedIngredient == null) {
+                        // Ajout
+                        ingredients.add(newIngredient)
+                    } else {
+                        // Modification
+                        ingredients = ingredients.toMutableList().map {
+                            if (it == selectedIngredient) newIngredient else it
+                        }.toMutableList()
+                    }
+                    openAddIngredientDialog = false
+                }
+            )
+        }
     }
 }
 
@@ -236,10 +266,16 @@ fun PhotoSection() {
         textAlign = TextAlign.Left,
         modifier = Modifier.fillMaxWidth()
     )
-    IconButton(onClick = { /*TODO*/ }, modifier = Modifier
-        .border(width = 1.dp, Color.Black, shape = RoundedCornerShape(10.dp))
-        .size(250.dp)) {
-        Icon(imageVector = Icons.Default.AddPhotoAlternate, contentDescription = Icons.Default.AddPhotoAlternate.name, modifier = Modifier.size(70.dp))
+    IconButton(
+        onClick = { /*TODO*/ }, modifier = Modifier
+            .border(width = 1.dp, Color.Black, shape = RoundedCornerShape(10.dp))
+            .size(250.dp)
+    ) {
+        Icon(
+            imageVector = Icons.Default.AddPhotoAlternate,
+            contentDescription = Icons.Default.AddPhotoAlternate.name,
+            modifier = Modifier.size(70.dp)
+        )
     }
 }
 
