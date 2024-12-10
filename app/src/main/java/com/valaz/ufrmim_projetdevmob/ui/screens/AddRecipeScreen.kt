@@ -1,8 +1,13 @@
 package com.valaz.ufrmim_projetdevmob.ui.screens
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -36,18 +41,22 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil3.compose.rememberAsyncImagePainter
 import com.valaz.ufrmim_projetdevmob.model.Ingredient
 import com.valaz.ufrmim_projetdevmob.ui.components.AddIngredientDialog
 import com.valaz.ufrmim_projetdevmob.ui.components.AddStepDialog
 import com.valaz.ufrmim_projetdevmob.ui.components.AddedIngredientCard
 import com.valaz.ufrmim_projetdevmob.ui.components.AddedStepCard
 import com.valaz.ufrmim_projetdevmob.ui.components.NumberInputField
-import com.valaz.ufrmim_projetdevmob.ui.components.StepCard
+import com.valaz.ufrmim_projetdevmob.ui.components.RawButton
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -301,16 +310,44 @@ fun PhotoSection() {
         textAlign = TextAlign.Left,
         modifier = Modifier.fillMaxWidth()
     )
-    IconButton(
-        onClick = { /*TODO*/ }, modifier = Modifier
+    var imageUri by remember { mutableStateOf<Uri?>(null) }
+
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        imageUri = uri
+    }
+
+    RawButton(
+        onClick = {
+            launcher.launch("image/*")
+        },
+        modifier = Modifier
             .border(width = 1.dp, Color.Black, shape = RoundedCornerShape(10.dp))
             .size(250.dp)
     ) {
-        Icon(
-            imageVector = Icons.Default.AddPhotoAlternate,
-            contentDescription = Icons.Default.AddPhotoAlternate.name,
-            modifier = Modifier.size(70.dp)
-        )
+        if (imageUri != null) {
+            val painter: Painter =
+                rememberAsyncImagePainter(model = imageUri)
+            Image(
+                painter = painter,
+                contentDescription = "Image sélectionnée",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clip(shape = RoundedCornerShape(10.dp))
+            )
+        } else {
+            Box(modifier = Modifier.fillMaxSize()) {
+                Icon(
+                    imageVector = Icons.Default.AddPhotoAlternate,
+                    contentDescription = Icons.Default.AddPhotoAlternate.name,
+                    modifier = Modifier
+                        .size(70.dp)
+                        .align(Alignment.Center)
+                )
+            }
+        }
     }
 }
 
