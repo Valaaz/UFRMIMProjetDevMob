@@ -43,7 +43,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.valaz.ufrmim_projetdevmob.model.Ingredient
 import com.valaz.ufrmim_projetdevmob.ui.components.AddIngredientDialog
+import com.valaz.ufrmim_projetdevmob.ui.components.AddStepDialog
 import com.valaz.ufrmim_projetdevmob.ui.components.AddedIngredientCard
+import com.valaz.ufrmim_projetdevmob.ui.components.AddedStepCard
 import com.valaz.ufrmim_projetdevmob.ui.components.NumberInputField
 import com.valaz.ufrmim_projetdevmob.ui.components.StepCard
 
@@ -236,7 +238,9 @@ fun IngredientsSection() {
 
 @Composable
 fun StepsSection() {
-    var steps: MutableList<String> = mutableListOf()
+    var steps by remember { mutableStateOf(mutableListOf<String>()) }
+    var openAddStepDialog by remember { mutableStateOf(false) }
+    var selectedStep by remember { mutableStateOf<String?>(null) }
 
     Column {
         Text(
@@ -248,13 +252,44 @@ fun StepsSection() {
         )
         Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
             steps.forEachIndexed { index, step ->
-                StepCard(step = step, stepNumber = index)
+                AddedStepCard(step = step, stepNumber = index + 1, deleteStep = { stepToRemove ->
+                    steps =
+                        steps.toMutableList().apply { remove(stepToRemove) }
+                },
+                    updateStep = {
+                        selectedStep = step
+                        openAddStepDialog = true
+                    })
             }
         }
-        Button(onClick = { /*TODO*/ }, modifier = Modifier.align(Alignment.End)) {
+        Button(onClick = {
+            selectedStep = null
+            openAddStepDialog = true
+        }, modifier = Modifier.align(Alignment.End)) {
             Text("Ajouter une étape")
         }
     }
+
+    if (openAddStepDialog) {
+        AddStepDialog(
+            step = selectedStep,
+            stepNumber = steps.size + 1,
+            onDismissRequest = { openAddStepDialog = false },
+            onConfirmation = { newStep ->
+                if (selectedStep == null) {
+                    // Ajout
+                    steps.add(newStep)
+                } else {
+                    // Modification
+                    steps = steps.toMutableList().map {
+                        if (it == selectedStep) newStep else it
+                    }.toMutableList()
+                }
+                openAddStepDialog = false
+            }
+        )
+    }
+
 }
 
 @Composable

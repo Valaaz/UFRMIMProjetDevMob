@@ -30,7 +30,8 @@ fun AddedIngredientCard(
     RawButton(
         onClick = {
             updateIngredient(ingredient)
-        }, modifier = Modifier
+        },
+        modifier = Modifier
             .height(30.dp)
             .fillMaxWidth()
     ) {
