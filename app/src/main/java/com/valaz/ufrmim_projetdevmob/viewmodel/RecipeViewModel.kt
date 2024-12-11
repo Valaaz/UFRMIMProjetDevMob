@@ -1,11 +1,13 @@
 package com.valaz.ufrmim_projetdevmob.viewmodel
 
+import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.valaz.ufrmim_projetdevmob.dao.RecipeDao
 import com.valaz.ufrmim_projetdevmob.model.Ingredient
 import com.valaz.ufrmim_projetdevmob.model.Recipe
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class RecipeViewModel(private val recipeDao: RecipeDao) : ViewModel() {
@@ -30,6 +32,18 @@ class RecipeViewModel(private val recipeDao: RecipeDao) : ViewModel() {
     fun setSelectedRecipe(recipeId: Int) {
         selectedRecipeId = recipeId
     }
+
+    fun isRecipeFavorite(recipeId: Int): Flow<Boolean> {
+        return recipeDao.isRecipeFavorite(recipeId)
+    }
+
+    fun toggleFavorite(recipeId: Int) {
+        viewModelScope.launch {
+            val isCurrentlyFavorite = recipeDao.isRecipeFavorite(recipeId).first()
+            recipeDao.setRecipeFavorite(recipeId, !isCurrentlyFavorite)
+        }
+    }
+
 
     fun addRecipe(recipe: Recipe) {
         viewModelScope.launch {

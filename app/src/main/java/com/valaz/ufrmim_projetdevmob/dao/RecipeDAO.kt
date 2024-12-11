@@ -18,6 +18,12 @@ interface RecipeDao {
     @Query("SELECT * FROM recipes WHERE favorite = true")
     fun getFavoriteRecipes(): Flow<List<Recipe>>
 
+    @Query("SELECT favorite FROM recipes WHERE id = :recipeId")
+    fun isRecipeFavorite(recipeId: Int): Flow<Boolean>
+
+    @Query("UPDATE recipes SET favorite = :isFavorite WHERE id = :recipeId")
+    suspend fun setRecipeFavorite(recipeId: Int, isFavorite: Boolean)
+
     @Query("SELECT * FROM recipes WHERE id IN (:recipeIds)")
     fun loadAllByIds(recipeIds: IntArray): List<Recipe>
 

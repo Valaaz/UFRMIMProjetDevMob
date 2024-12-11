@@ -36,6 +36,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -58,13 +60,17 @@ import com.valaz.ufrmim_projetdevmob.ui.components.IngredientCard
 import com.valaz.ufrmim_projetdevmob.ui.components.RecipePreviewParameterProvider
 import com.valaz.ufrmim_projetdevmob.ui.components.StepCard
 import com.russhwolf.settings.Settings
+import com.valaz.ufrmim_projetdevmob.dao.RecipeDao
+import com.valaz.ufrmim_projetdevmob.db.AppDatabase
+import com.valaz.ufrmim_projetdevmob.viewmodel.RecipeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RecipeDetailScreen(backAction: () -> Unit, recipe: Recipe?) {
-    val settings: Settings = Settings()
-    var isFavorite by remember { mutableStateOf(false) }
-
+fun RecipeDetailScreen(backAction: () -> Unit, recipe: Recipe?, recipeVM: RecipeViewModel) {
+    val isFavorite = recipe?.id?.let { id ->
+        recipeVM.isRecipeFavorite(id).collectAsState(initial = false).value
+    } ?: false
+    
     Scaffold(
         topBar = {
             TopAppBar(
@@ -85,39 +91,23 @@ fun RecipeDetailScreen(backAction: () -> Unit, recipe: Recipe?) {
                     }
                 },
                 actions = {
-                    // Favorite
-                    IconButton(
-                        onClick = {
-                            if (recipe != null) {
-                                isFavorite = !isFavorite;
-                                settings.putBoolean(recipe.id.toString(), isFavorite)
-                            }
-                        },
-                        colors = IconButtonDefaults.iconButtonColors(containerColor = MaterialTheme.colorScheme.primary),
-                        modifier = Modifier
-                            .width(48.dp)
-                            .height(36.dp)
-                            .clip(RoundedCornerShape(24.dp))
-                    ) {
+                    IconButton(onClick = {
+                        recipe?.id?.let { recipeId ->
+                            recipeVM.toggleFavorite(recipeId)
+                        }
+                    }) {
                         Icon(
-                            imageVector = if (settings.getBoolean(recipe?.id.toString(), isFavorite)) Icons.Filled.Favorite else Icons.Filled.FavoriteBorder,
-                            contentDescription = Icons.Filled.FavoriteBorder.toString(),
-                            tint = Color.Black,
-                        )
-                    }
-                    IconButton(onClick = {}) {
-                        Icon(
-                            imageVector = Icons.Default.FavoriteBorder,
-                            contentDescription = Icons.Default.FavoriteBorder.name,
+                            imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                            contentDescription = if (isFavorite) Icons.Default.Favorite.name else Icons.Default.FavoriteBorder.name,
                             tint = MaterialTheme.colorScheme.onPrimary
                         )
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.primary
+                    containerColor = MaterialTheme.colorScheme.primary
                 ),
 
-            )
+                )
         },
     ) { innerPadding ->
         Surface(
@@ -257,8 +247,8 @@ fun StepsSection(steps: List<String>) {
     }
 }
 
-@Preview(showSystemUi = true)
-@Composable
-fun RecipeDetailScreenPreview(@PreviewParameter(RecipePreviewParameterProvider::class) recipe: Recipe) {
-    RecipeDetailScreen(backAction = {}, recipe = recipe)
-}
+//@Preview(showSystemUi = true)
+//@Composable
+//fun RecipeDetailScreenPreview(@PreviewParameter(RecipePreviewParameterProvider::class) recipe: Recipe) {
+//    RecipeDetailScreen(backAction = {}, recipe = recipe)
+//}

@@ -31,7 +31,8 @@ fun RecipesNavigationComponent(navController: NavHostController, recipeVM: Recip
                         navController.popBackStack()
                     }
                 },
-                recipe = recipeVM.getSelectedRecipe().collectAsState(initial = null).value
+                recipe = recipeVM.getSelectedRecipe().collectAsState(initial = null).value,
+                recipeVM = recipeVM
             )
         }
 
