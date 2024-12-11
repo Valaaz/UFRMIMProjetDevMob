@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun TopAppBarNavigation(navController: NavHostController, recipeVM: RecipeViewModel) {
     Column(modifier = Modifier.fillMaxWidth()) {
-        val pagerState = rememberPagerState(pageCount = { 2 })
+        val pagerState = rememberPagerState(pageCount = { 2 }, initialPage = 1)
         val coroutineScope = rememberCoroutineScope()
         val recipeVM = recipeVM
 
@@ -37,11 +37,6 @@ fun TopAppBarNavigation(navController: NavHostController, recipeVM: RecipeViewMo
             )
         }
         HorizontalPager(state = pagerState) { page ->
-//            if (page == 0)
-//                navController.navigate(RecipesScreens.MyRecipesScreen.name)
-//            else
-//                navController.navigate(RecipesScreens.DiscoverRecipesScreen.name)
-//            RecipesNavigationComponent(navController = navController)
             if (page == 0) MyRecipesScreen(
                 recipeVM = recipeVM,
                 onDetails = { recipe ->
@@ -49,9 +44,9 @@ fun TopAppBarNavigation(navController: NavHostController, recipeVM: RecipeViewMo
                     navController.navigate(RecipesScreens.RecipeDetailScreen.name)
                 }) else DiscoverRecipesScreen(
                 recipeVM = recipeVM,
-                    onDetails = { recipe ->
-                        recipeVM.setSelectedRecipe(recipe.id ?: -1)
-                        navController.navigate(RecipesScreens.RecipeDetailScreen.name)
+                onDetails = { recipe ->
+                    recipeVM.setSelectedRecipe(recipe.id ?: -1)
+                    navController.navigate(RecipesScreens.RecipeDetailScreen.name)
                 }
             )
         }

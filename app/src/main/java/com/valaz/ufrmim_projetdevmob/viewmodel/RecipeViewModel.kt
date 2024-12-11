@@ -6,14 +6,17 @@ import com.valaz.ufrmim_projetdevmob.dao.RecipeDao
 import com.valaz.ufrmim_projetdevmob.model.Ingredient
 import com.valaz.ufrmim_projetdevmob.model.Recipe
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class RecipeViewModel(private val recipeDao: RecipeDao) : ViewModel() {
     var selectedRecipeId: Int = -1
 
-    fun getRecipeList(): Flow<List<Recipe>> {
+    fun getRecipesList(): Flow<List<Recipe>> {
         return recipeDao.getRecipes()
+    }
+
+    fun getFavoriteRecipesList(): Flow<List<Recipe>> {
+        return recipeDao.getFavoriteRecipes()
     }
 
     fun getRecipeById(recipeId: Int): Flow<Recipe> {

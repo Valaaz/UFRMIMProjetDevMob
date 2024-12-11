@@ -15,8 +15,6 @@ import com.valaz.ufrmim_projetdevmob.viewmodel.RecipeViewModel
 
 @Composable
 fun RecipesNavigationComponent(navController: NavHostController, recipeVM: RecipeViewModel) {
-//    val navController = navController
-//    val navController = rememberNavController()
     val recipeVM = recipeVM
 
     NavHost(navController = navController, startDestination = RecipesScreens.HomeScreen.name) {
@@ -40,7 +38,11 @@ fun RecipesNavigationComponent(navController: NavHostController, recipeVM: Recip
         composable(
             route = RecipesScreens.AddRecipeScreen.name
         ) {
-            AddRecipeScreen({})
+            AddRecipeScreen(backAction = {
+                if (navController.previousBackStackEntry != null) {
+                    navController.popBackStack()
+                }
+            })
         }
     }
 }
