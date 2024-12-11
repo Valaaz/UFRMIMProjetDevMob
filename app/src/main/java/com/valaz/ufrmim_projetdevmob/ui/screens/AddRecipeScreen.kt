@@ -30,6 +30,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -51,16 +52,27 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.rememberAsyncImagePainter
 import com.valaz.ufrmim_projetdevmob.model.Ingredient
+import com.valaz.ufrmim_projetdevmob.model.Recipe
 import com.valaz.ufrmim_projetdevmob.ui.components.AddIngredientDialog
 import com.valaz.ufrmim_projetdevmob.ui.components.AddStepDialog
 import com.valaz.ufrmim_projetdevmob.ui.components.AddedIngredientCard
 import com.valaz.ufrmim_projetdevmob.ui.components.AddedStepCard
 import com.valaz.ufrmim_projetdevmob.ui.components.NumberInputField
 import com.valaz.ufrmim_projetdevmob.ui.components.RawButton
+import com.valaz.ufrmim_projetdevmob.viewmodel.RecipeViewModel
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddRecipeScreen(backAction: () -> Unit) {
+fun AddRecipeScreen(backAction: () -> Unit, recipeVM: RecipeViewModel) {
+    var title by remember { mutableStateOf("") }
+    var prepTime by remember { mutableStateOf(0) }
+    var cookTime by remember { mutableStateOf(0) }
+    var servings by remember { mutableStateOf(0) }
+    var ingredients by remember { mutableStateOf(listOf<Ingredient>()) }
+    var steps by remember { mutableStateOf(listOf<String>()) }
+    var imageUri by remember { mutableStateOf<String>("") }
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -100,20 +112,62 @@ fun AddRecipeScreen(backAction: () -> Unit) {
                 verticalArrangement = Arrangement.spacedBy(10.dp, Alignment.Top),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                InformationsSection()
+                InformationsSection(
+                    title = title,
+                    onTitleChange = { title = it },
+                    prepTime = prepTime,
+                    onPrepTimeChange = { prepTime = it },
+                    cookTime = cookTime,
+                    onCookTimeChange = { cookTime = it },
+                    servings = servings,
+                    onServingsChange = { servings = it }
+                )
                 HorizontalDivider()
-                IngredientsSection()
+                IngredientsSection(
+                    ingredients = ingredients,
+                    onIngredientsChange = { ingredients = it },
+                )
                 HorizontalDivider()
-                StepsSection()
+                StepsSection(
+                    steps = steps,
+                    onStepsChange = { steps = it },
+                )
                 HorizontalDivider()
                 PhotoSection()
+                HorizontalDivider()
+                Button(onClick = {
+                    recipeVM.addRecipe(
+                        Recipe(
+                            title = title,
+                            description = "",
+                            prepTime = prepTime,
+                            cookTime = cookTime,
+                            servings = servings,
+                            ingredients = ingredients,
+                            steps = steps,
+                            imageUrl = ""
+                        )
+                    )
+                    backAction()
+                }) {
+                    Text("Valider")
+                }
             }
         }
     }
 }
 
 @Composable
-fun InformationsSection() {
+fun InformationsSection(
+    title: String,
+    onTitleChange: (String) -> Unit,
+    prepTime: Int,
+    onPrepTimeChange: (Int) -> Unit,
+    cookTime: Int,
+    onCookTimeChange: (Int) -> Unit,
+    servings: Int,
+    onServingsChange: (Int) -> Unit
+) {
     val spaceBtwIconText = 5.dp
 
     Text(
@@ -130,6 +184,11 @@ fun InformationsSection() {
     ) {
         // Temps de préparation
         Column {
+            OutlinedTextField(
+                value = title,
+                onValueChange = onTitleChange,
+                label = { Text("Titre de la recette") }, modifier = Modifier.fillMaxWidth()
+            )
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(spaceBtwIconText)
@@ -143,7 +202,7 @@ fun InformationsSection() {
                     text = "Temps de préparation (en min) : ",
                 )
             }
-            NumberInputField(defaultValue = 1, size = 40.dp)
+            NumberInputField(value = prepTime, onValueChange = onPrepTimeChange, size = 40.dp)
         }
 
         // Temps de cuisson
@@ -161,7 +220,7 @@ fun InformationsSection() {
                     text = "Temps de cuisson (en min) : ",
                 )
             }
-            NumberInputField(defaultValue = 1, size = 40.dp)
+            NumberInputField(value = cookTime, onValueChange = onCookTimeChange, size = 40.dp)
         }
 
         // Nombre de personnes
@@ -179,14 +238,16 @@ fun InformationsSection() {
                     text = "Nombre de personnes : ",
                 )
             }
-            NumberInputField(defaultValue = 1, size = 40.dp)
+            NumberInputField(value = servings, onValueChange = onServingsChange, size = 40.dp)
         }
     }
 }
 
 @Composable
-fun IngredientsSection() {
-    var ingredients by remember { mutableStateOf(mutableListOf<Ingredient>()) }
+fun IngredientsSection(
+    ingredients: List<Ingredient>,
+    onIngredientsChange: (List<Ingredient>) -> Unit
+) {
     var openAddIngredientDialog by remember { mutableStateOf(false) }
     var selectedIngredient by remember { mutableStateOf<Ingredient?>(null) }
 
@@ -205,8 +266,7 @@ fun IngredientsSection() {
                 AddedIngredientCard(
                     ingredient = ingredient,
                     deleteIngredient = { ingredientToRemove ->
-                        ingredients =
-                            ingredients.toMutableList().apply { remove(ingredientToRemove) }
+                        onIngredientsChange(ingredients - ingredientToRemove)
                     },
                     updateIngredient = {
                         selectedIngredient = ingredient
@@ -231,12 +291,14 @@ fun IngredientsSection() {
                 onConfirmation = { newIngredient ->
                     if (selectedIngredient == null) {
                         // Ajout
-                        ingredients.add(newIngredient)
+                        onIngredientsChange(ingredients + newIngredient)
                     } else {
                         // Modification
-                        ingredients = ingredients.toMutableList().map {
-                            if (it == selectedIngredient) newIngredient else it
-                        }.toMutableList()
+                        onIngredientsChange(
+                            ingredients.map {
+                                if (it == selectedIngredient) newIngredient else it
+                            }
+                        )
                     }
                     openAddIngredientDialog = false
                 }
@@ -246,8 +308,7 @@ fun IngredientsSection() {
 }
 
 @Composable
-fun StepsSection() {
-    var steps by remember { mutableStateOf(mutableListOf<String>()) }
+fun StepsSection(steps: List<String>, onStepsChange: (List<String>) -> Unit) {
     var openAddStepDialog by remember { mutableStateOf(false) }
     var selectedStep by remember { mutableStateOf<String?>(null) }
 
@@ -262,8 +323,7 @@ fun StepsSection() {
         Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
             steps.forEachIndexed { index, step ->
                 AddedStepCard(step = step, stepNumber = index + 1, deleteStep = { stepToRemove ->
-                    steps =
-                        steps.toMutableList().apply { remove(stepToRemove) }
+                    onStepsChange(steps - stepToRemove)
                 },
                     updateStep = {
                         selectedStep = step
@@ -287,12 +347,14 @@ fun StepsSection() {
             onConfirmation = { newStep ->
                 if (selectedStep == null) {
                     // Ajout
-                    steps.add(newStep)
+                    onStepsChange(steps + newStep)
                 } else {
                     // Modification
-                    steps = steps.toMutableList().map {
-                        if (it == selectedStep) newStep else it
-                    }.toMutableList()
+                    onStepsChange(
+                        steps.map {
+                            if (it == selectedStep) newStep else it
+                        }
+                    )
                 }
                 openAddStepDialog = false
             }
@@ -351,8 +413,8 @@ fun PhotoSection() {
     }
 }
 
-@Preview
-@Composable
-fun AddRecipeScreenPreview() {
-    AddRecipeScreen(backAction = {})
-}
+//@Preview
+//@Composable
+//fun AddRecipeScreenPreview() {
+//    AddRecipeScreen(backAction = {})
+//}

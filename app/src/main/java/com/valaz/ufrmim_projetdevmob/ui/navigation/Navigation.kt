@@ -39,11 +39,14 @@ fun RecipesNavigationComponent(navController: NavHostController, recipeVM: Recip
         composable(
             route = RecipesScreens.AddRecipeScreen.name
         ) {
-            AddRecipeScreen(backAction = {
-                if (navController.previousBackStackEntry != null) {
-                    navController.popBackStack()
-                }
-            })
+            AddRecipeScreen(
+                backAction = {
+                    if (navController.previousBackStackEntry != null) {
+                        navController.popBackStack()
+                    }
+                },
+                recipeVM = recipeVM
+            )
         }
     }
 }

@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Timer
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -70,7 +71,7 @@ fun RecipeDetailScreen(backAction: () -> Unit, recipe: Recipe?, recipeVM: Recipe
     val isFavorite = recipe?.id?.let { id ->
         recipeVM.isRecipeFavorite(id).collectAsState(initial = false).value
     } ?: false
-    
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -147,6 +148,9 @@ fun RecipeDetailScreen(backAction: () -> Unit, recipe: Recipe?, recipeVM: Recipe
                     IngredientsSection(ingredients = recipe.ingredients)
                     HorizontalDivider()
                     StepsSection(steps = recipe.steps)
+                    Button(onClick = { recipe.id?.let { recipeVM.deleteRecipe(it) } }) {
+                        Text("Supprimer cette recette")
+                    }
                 }
             } ?: run {
                 Text(

@@ -161,8 +161,8 @@ class RecipePreviewParameterProvider : PreviewParameterProvider<Recipe> {
             favorite = false,
             title = "Spaghettis à la bolognaise et aux légumes",
             description = "Coucou",
-            prepTime = 12.5f,
-            cookTime = 15f,
+            prepTime = 12,
+            cookTime = 15,
             servings = 3,
             imageUrl = "https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
             ingredients = listOf(

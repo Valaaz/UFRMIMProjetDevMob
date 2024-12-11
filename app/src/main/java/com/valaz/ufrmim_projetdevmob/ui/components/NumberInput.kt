@@ -16,15 +16,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
@@ -33,11 +27,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun NumberInputField(defaultValue: Int, size: Dp) {
-    var value by remember {
-        mutableStateOf(TextFieldValue(defaultValue.toString()))
-    }
-
+fun NumberInputField(value: Int, onValueChange: (Int) -> Unit, size: Dp) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -49,8 +39,8 @@ fun NumberInputField(defaultValue: Int, size: Dp) {
     ) {
         IconButton(
             onClick = {
-                val newValue = (value.text.toIntOrNull() ?: defaultValue) - 1
-                value = TextFieldValue((if (newValue < 1) 1 else newValue).toString())
+                val newValue = (value - 1).coerceAtLeast(1)
+                onValueChange(newValue)
             },
             modifier = Modifier.size(size)
         ) {
@@ -62,17 +52,11 @@ fun NumberInputField(defaultValue: Int, size: Dp) {
         }
         VerticalDivider(Modifier.border(width = 1.dp, color = Color.Black))
         BasicTextField(
-            value = value,
+            value = value.toString(),
             onValueChange = { newValue ->
-                if (newValue.text.all { it.isDigit() } || newValue.text.isEmpty()) {
-                    val numericValue = newValue.text.toIntOrNull()
-                    if (numericValue == null || numericValue in 1..999) {
-                        value = if (newValue.text.isEmpty()) {
-                            TextFieldValue("1", TextRange(0, 1))
-                        } else {
-                            newValue
-                        }
-                    }
+                val numericValue = newValue.toIntOrNull()
+                if (numericValue != null && numericValue in 1..999) {
+                    onValueChange(numericValue)
                 }
             },
             singleLine = true,
@@ -94,8 +78,8 @@ fun NumberInputField(defaultValue: Int, size: Dp) {
         VerticalDivider(Modifier.border(width = 1.dp, color = Color.Black))
         IconButton(
             onClick = {
-                val newValue = (value.text.toIntOrNull() ?: defaultValue) + 1
-                value = TextFieldValue((if (newValue > 999) 999 else newValue).toString())
+                val newValue = (value + 1).coerceAtMost(999)
+                onValueChange(newValue)
             },
             modifier = Modifier.size(size)
         ) {
@@ -111,5 +95,5 @@ fun NumberInputField(defaultValue: Int, size: Dp) {
 @Preview
 @Composable
 fun NumberInputPreview() {
-    NumberInputField(defaultValue = 1, size = 50.dp)
+    NumberInputField(value = 1, onValueChange = {}, size = 50.dp)
 }

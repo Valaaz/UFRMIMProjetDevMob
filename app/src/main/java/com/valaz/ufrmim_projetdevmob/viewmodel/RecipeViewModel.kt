@@ -44,7 +44,6 @@ class RecipeViewModel(private val recipeDao: RecipeDao) : ViewModel() {
         }
     }
 
-
     fun addRecipe(recipe: Recipe) {
         viewModelScope.launch {
             recipeDao.insertRecipe(recipe)
@@ -57,14 +56,20 @@ class RecipeViewModel(private val recipeDao: RecipeDao) : ViewModel() {
         }
     }
 
+    fun deleteRecipe(recipeId: Int) {
+        viewModelScope.launch {
+            recipeDao.delete(recipeId)
+        }
+    }
+
     fun init() {
         val recipes = listOf(
             Recipe(
                 favorite = true,
                 title = "Poulet au citron et à la crème aux champignons",
                 description = "Une recette savoureuse de poulet mariné au citron et aux herbes, idéale pour un dîner léger.",
-                prepTime = 15f,
-                cookTime = 30f,
+                prepTime = 15,
+                cookTime = 30,
                 servings = 4,
                 imageUrl = "https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
                 ingredients = listOf(
@@ -87,8 +92,8 @@ class RecipeViewModel(private val recipeDao: RecipeDao) : ViewModel() {
                 favorite = false,
                 title = "Soupe de légumes d'hiver",
                 description = "Un bol réconfortant de soupe à base de légumes frais, parfait pour les journées froides.",
-                prepTime = 20f,
-                cookTime = 40f,
+                prepTime = 20,
+                cookTime = 40,
                 servings = 6,
                 imageUrl = "https://example.com/images/soupe-legumes-hiver.jpg",
                 ingredients = listOf(
@@ -112,8 +117,8 @@ class RecipeViewModel(private val recipeDao: RecipeDao) : ViewModel() {
                 favorite = false,
                 title = "Tarte aux pommes",
                 description = "Un classique de la pâtisserie française, facile à réaliser et toujours apprécié.",
-                prepTime = 20f,
-                cookTime = 35f,
+                prepTime = 20,
+                cookTime = 35,
                 servings = 6,
                 imageUrl = "https://example.com/images/tarte-aux-pommes.jpg",
                 ingredients = listOf(
@@ -136,8 +141,8 @@ class RecipeViewModel(private val recipeDao: RecipeDao) : ViewModel() {
                 favorite = false,
                 title = "Ratatouille",
                 description = "Une spécialité provençale composée de légumes mijotés avec des herbes aromatiques.",
-                prepTime = 15f,
-                cookTime = 45f,
+                prepTime = 15,
+                cookTime = 45,
                 servings = 4,
                 imageUrl = "https://example.com/images/ratatouille.jpg",
                 ingredients = listOf(
@@ -163,8 +168,8 @@ class RecipeViewModel(private val recipeDao: RecipeDao) : ViewModel() {
                 favorite = false,
                 title = "Brownies au chocolat",
                 description = "Des brownies moelleux et fondants, parfaits pour les amateurs de chocolat.",
-                prepTime = 15f,
-                cookTime = 25f,
+                prepTime = 15,
+                cookTime = 25,
                 servings = 8,
                 imageUrl = "https://example.com/images/brownies-chocolat.jpg",
                 ingredients = listOf(
@@ -186,8 +191,8 @@ class RecipeViewModel(private val recipeDao: RecipeDao) : ViewModel() {
                 favorite = false,
                 title = "Pâtes à la carbonara",
                 description = "Une recette italienne classique avec des pâtes crémeuses au lardons et parmesan.",
-                prepTime = 10f,
-                cookTime = 15f,
+                prepTime = 10,
+                cookTime = 15,
                 servings = 4,
                 imageUrl = "https://example.com/images/pates-carbonara.jpg",
                 ingredients = listOf(
@@ -219,8 +224,8 @@ class RecipeViewModel(private val recipeDao: RecipeDao) : ViewModel() {
             favorite = true,
             title = "Poulet au citron et à la crème aux champignons",
             description = "Une recette savoureuse de poulet mariné au citron et aux herbes, idéale pour un dîner léger.",
-            prepTime = 15f,
-            cookTime = 30f,
+            prepTime = 15,
+            cookTime = 30,
             servings = 4,
             imageUrl = "https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
             ingredients = listOf(
