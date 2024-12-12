@@ -11,8 +11,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -41,19 +43,30 @@ fun AddStepDialog(
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(15.dp),
+                .padding(5.dp),
             shape = RoundedCornerShape(15.dp),
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(15.dp)
             ) {
-                CenterAlignedTopAppBar(title = {
-                    if (step != null)
-                        Text("Modifier étape ${stepNumber}")
-                    else
-                        Text("Ajouter une étape")
-                })
+                CenterAlignedTopAppBar(
+                    title = {
+                        if (step != null)
+                            Text(
+                                "Modifier étape ${stepNumber}",
+                                color = MaterialTheme.colorScheme.onPrimary,
+                            )
+                        else
+                            Text(
+                                "Ajouter une étape",
+                                color = MaterialTheme.colorScheme.onPrimary,
+                            )
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.primary
+                    ),
+                )
                 OutlinedTextField(
                     value = step,
                     onValueChange = { step = it },

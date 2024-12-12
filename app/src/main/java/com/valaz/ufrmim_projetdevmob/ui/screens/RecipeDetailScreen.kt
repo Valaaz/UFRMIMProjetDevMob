@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -47,6 +48,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -228,9 +230,21 @@ fun IngredientsSection(ingredients: List<Ingredient>) {
         textAlign = TextAlign.Left,
         modifier = Modifier.fillMaxWidth()
     )
-    LazyVerticalGrid(columns = GridCells.Fixed(3), modifier = Modifier.height(400.dp)) {
-        items(ingredients) { ingredient ->
-            IngredientCard(ingredient = ingredient)
+    val columns = 3
+    val screenWidth = LocalConfiguration.current.screenWidthDp.dp
+    val cardWidth = (screenWidth - (8.dp * (columns - 1)) - 16.dp) / columns
+
+    ingredients.chunked(columns).forEach { rowItems ->
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            rowItems.forEach { ingredient ->
+                IngredientCard(ingredient = ingredient, cardWidth)
+            }
+
+            repeat(columns - rowItems.size) {
+                Spacer(modifier = Modifier.width(cardWidth))
+            }
         }
     }
 }

@@ -10,8 +10,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,7 +28,11 @@ import com.valaz.ufrmim_projetdevmob.model.Ingredient
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddIngredientDialog(ingredient: Ingredient? = null, onDismissRequest: () -> Unit, onConfirmation: (Ingredient) -> Unit) {
+fun AddIngredientDialog(
+    ingredient: Ingredient? = null,
+    onDismissRequest: () -> Unit,
+    onConfirmation: (Ingredient) -> Unit
+) {
     var ingredientName by remember {
         mutableStateOf(ingredient?.name ?: "")
     }
@@ -38,14 +44,24 @@ fun AddIngredientDialog(ingredient: Ingredient? = null, onDismissRequest: () -> 
         Card(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(15.dp),
+                .padding(5.dp),
             shape = RoundedCornerShape(15.dp),
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(15.dp)
             ) {
-                CenterAlignedTopAppBar(title = { Text(text = "Ajouter un ingrédient") })
+                CenterAlignedTopAppBar(
+                    title = {
+                        Text(
+                            text = "Ajouter un ingrédient",
+                            color = MaterialTheme.colorScheme.onPrimary,
+                        )
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.primary
+                    ),
+                )
                 OutlinedTextField(
                     value = ingredientName,
                     onValueChange = { ingredientName = it },
@@ -61,7 +77,8 @@ fun AddIngredientDialog(ingredient: Ingredient? = null, onDismissRequest: () -> 
                         Text(
                             text = "Quantité"
                         )
-                    })
+                    },
+                    )
                 Row(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier

@@ -5,11 +5,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.outlined.DeleteForever
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
@@ -32,7 +34,6 @@ fun AddedIngredientCard(
             updateIngredient(ingredient)
         },
         modifier = Modifier
-            .height(30.dp)
             .fillMaxWidth()
     ) {
         Row(
@@ -48,13 +49,13 @@ fun AddedIngredientCard(
 @Composable
 fun NameAndQuantity(ingredient: Ingredient, modifier: Modifier) {
     Row(
-        modifier = modifier,
+        modifier = modifier.wrapContentHeight(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(20.dp)
     ) {
-        Text(ingredient.name)
+        Text(ingredient.name, style = MaterialTheme.typography.bodyLarge)
         Icon(imageVector = Icons.Default.Close, contentDescription = Icons.Default.Close.name)
-        Text(ingredient.quantity)
+        Text(ingredient.quantity, style = MaterialTheme.typography.bodyLarge)
     }
 }
 
@@ -65,7 +66,7 @@ fun DeleteIcon(deleteIngredient: () -> Unit) {
         horizontalArrangement = Arrangement.spacedBy(5.dp),
         modifier = Modifier.padding(end = 5.dp)
     ) {
-        VerticalDivider()
+        VerticalDivider(modifier = Modifier.height(40.dp))
         IconButton(onClick = { deleteIngredient() }) {
             Icon(
                 imageVector = Icons.Outlined.DeleteForever,

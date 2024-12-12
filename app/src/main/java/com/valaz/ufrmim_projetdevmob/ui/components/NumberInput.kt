@@ -1,6 +1,5 @@
 package com.valaz.ufrmim_projetdevmob.ui.components
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -14,13 +13,12 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -28,12 +26,15 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun NumberInputField(value: Int, onValueChange: (Int) -> Unit, size: Dp) {
+    val lineColor = MaterialTheme.colorScheme.onSecondaryContainer
+
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .height(size)
             .border(
-                border = BorderStroke(width = 1.dp, Color.Black),
+                width = 1.dp,
+                color = lineColor,
                 shape = RoundedCornerShape(10.dp)
             )
     ) {
@@ -47,10 +48,10 @@ fun NumberInputField(value: Int, onValueChange: (Int) -> Unit, size: Dp) {
             Icon(
                 imageVector = Icons.Default.Remove,
                 contentDescription = "Decrement",
-                tint = Color.Black
+                tint = lineColor
             )
         }
-        VerticalDivider(Modifier.border(width = 1.dp, color = Color.Black))
+        VerticalDivider(Modifier.border(width = 1.dp, color = lineColor))
         BasicTextField(
             value = value.toString(),
             onValueChange = { newValue ->
@@ -63,7 +64,7 @@ fun NumberInputField(value: Int, onValueChange: (Int) -> Unit, size: Dp) {
             modifier = Modifier
                 .fillMaxHeight()
                 .weight(1f),
-            textStyle = TextStyle(textAlign = TextAlign.Center),
+            textStyle = TextStyle(textAlign = TextAlign.Center, color = lineColor),
             decorationBox = { innerTextField ->
                 Box(
                     modifier = Modifier
@@ -75,7 +76,7 @@ fun NumberInputField(value: Int, onValueChange: (Int) -> Unit, size: Dp) {
                 }
             }
         )
-        VerticalDivider(Modifier.border(width = 1.dp, color = Color.Black))
+        VerticalDivider(Modifier.border(width = 1.dp, color = lineColor))
         IconButton(
             onClick = {
                 val newValue = (value + 1).coerceAtMost(999)
@@ -86,7 +87,7 @@ fun NumberInputField(value: Int, onValueChange: (Int) -> Unit, size: Dp) {
             Icon(
                 imageVector = Icons.Default.Add,
                 contentDescription = "Increment",
-                tint = Color.Black
+                tint = lineColor
             )
         }
     }

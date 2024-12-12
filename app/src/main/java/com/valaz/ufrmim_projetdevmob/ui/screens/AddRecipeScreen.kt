@@ -46,10 +46,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.room.Room
 import coil3.compose.rememberAsyncImagePainter
+import com.valaz.ufrmim_projetdevmob.db.AppDatabase
 import com.valaz.ufrmim_projetdevmob.model.Ingredient
 import com.valaz.ufrmim_projetdevmob.model.Recipe
 import com.valaz.ufrmim_projetdevmob.ui.components.AddIngredientDialog
@@ -178,16 +182,16 @@ fun InformationsSection(
         modifier = Modifier.fillMaxWidth()
     )
     Column(
-        verticalArrangement = Arrangement.spacedBy(5.dp), modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 15.dp)
+        verticalArrangement = Arrangement.spacedBy(20.dp),
+        modifier = Modifier
+            .fillMaxWidth().padding(bottom = 10.dp)
     ) {
         // Temps de préparation
-        Column {
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
             OutlinedTextField(
                 value = title,
                 onValueChange = onTitleChange,
-                label = { Text("Titre de la recette") }, modifier = Modifier.fillMaxWidth()
+                label = { Text("Titre de la recette", style = MaterialTheme.typography.titleMedium) }, modifier = Modifier.fillMaxWidth()
             )
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -200,13 +204,14 @@ fun InformationsSection(
                 )
                 Text(
                     text = "Temps de préparation (en min) : ",
+                    style = MaterialTheme.typography.titleMedium
                 )
             }
             NumberInputField(value = prepTime, onValueChange = onPrepTimeChange, size = 40.dp)
         }
 
         // Temps de cuisson
-        Column {
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(spaceBtwIconText)
@@ -218,13 +223,14 @@ fun InformationsSection(
                 )
                 Text(
                     text = "Temps de cuisson (en min) : ",
+                    style = MaterialTheme.typography.titleMedium
                 )
             }
             NumberInputField(value = cookTime, onValueChange = onCookTimeChange, size = 40.dp)
         }
 
         // Nombre de personnes
-        Column {
+        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(spaceBtwIconText)
@@ -236,6 +242,7 @@ fun InformationsSection(
                 )
                 Text(
                     text = "Nombre de personnes : ",
+                    style = MaterialTheme.typography.titleMedium
                 )
             }
             NumberInputField(value = servings, onValueChange = onServingsChange, size = 40.dp)
@@ -318,7 +325,7 @@ fun StepsSection(steps: List<String>, onStepsChange: (List<String>) -> Unit) {
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Left,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth().padding(bottom = 10.dp)
         )
         Column(verticalArrangement = Arrangement.spacedBy(5.dp)) {
             steps.forEachIndexed { index, step ->
@@ -413,8 +420,12 @@ fun PhotoSection() {
     }
 }
 
-//@Preview
-//@Composable
-//fun AddRecipeScreenPreview() {
-//    AddRecipeScreen(backAction = {})
-//}
+@Preview
+@Composable
+fun AddRecipeScreenPreview() {
+    AddRecipeScreen(backAction = {}, recipeVM = RecipeViewModel(
+        Room.databaseBuilder(
+            LocalContext.current,
+        AppDatabase::class.java, "cook-database"
+    ).fallbackToDestructiveMigration().build().recipeDao()))
+}
