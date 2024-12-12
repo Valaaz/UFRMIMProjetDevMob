@@ -160,7 +160,7 @@ class RecipePreviewParameterProvider : PreviewParameterProvider<Recipe> {
             id = 1,
             favorite = false,
             title = "Spaghettis à la bolognaise et aux légumes",
-            description = "Coucou",
+            description = "",
             prepTime = 12,
             cookTime = 15,
             servings = 3,

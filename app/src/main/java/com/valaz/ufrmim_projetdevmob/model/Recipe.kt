@@ -10,6 +10,7 @@ data class Recipe(
     @ColumnInfo(name = "title") val title: String,
     @ColumnInfo(name = "description") val description: String,
     @ColumnInfo(name = "favorite") val favorite: Boolean = false,
+    @ColumnInfo(name = "created") val isCreated: Boolean = false,
     @ColumnInfo(name = "prep_time") val prepTime: Int,
     @ColumnInfo(name = "cook_time") val cookTime: Int,
     @ColumnInfo(name = "servings") val servings: Int,

@@ -6,6 +6,7 @@ import com.valaz.ufrmim_projetdevmob.dao.RecipeDao
 import com.valaz.ufrmim_projetdevmob.db.Converters
 import com.valaz.ufrmim_projetdevmob.model.Ingredient
 import com.valaz.ufrmim_projetdevmob.model.Recipe
+import com.valaz.ufrmim_projetdevmob.ui.navigation.RecipesScreens
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,29 +17,32 @@ import kotlinx.coroutines.launch
 
 class RecipeViewModel(private val recipeDao: RecipeDao) : ViewModel() {
     var selectedRecipeId: Int = -1
+    lateinit var currentScreen: RecipesScreens
 
-    private val _recipesList = MutableStateFlow<List<Recipe>>(emptyList())
-    val recipesList: StateFlow<List<Recipe>> get() = _recipesList
+    private val _discoverRecipesList = MutableStateFlow<List<Recipe>>(emptyList())
+    private val _myRecipesList = MutableStateFlow<List<Recipe>>(emptyList())
 
-    private val _filteredRecipes = MutableStateFlow<List<Recipe>>(emptyList())
-    val filteredRecipes: StateFlow<List<Recipe>> get() = _filteredRecipes
+    private val _filteredDiscoveredRecipes = MutableStateFlow<List<Recipe>>(emptyList())
+    private val _filtersDiscoverApplied = MutableStateFlow(false)
+    val filtersDiscoverApplied: StateFlow<Boolean> = _filtersDiscoverApplied
 
-    private val _filtersApplied = MutableStateFlow(false)
-    val filtersApplied: StateFlow<Boolean> = _filtersApplied
+    private val _filteredMyRecipes = MutableStateFlow<List<Recipe>>(emptyList())
+    private val _filtersMyRecipesApplied = MutableStateFlow(false)
+    val filtersMyRecipesApplied: StateFlow<Boolean> = _filtersMyRecipesApplied
 
     init {
         viewModelScope.launch {
-            val recipeList = recipeDao.getAllRecipes()
-            _recipesList.value = recipeList
+            val discoverRecipeList = recipeDao.getDiscoverRecipes()
+            _discoverRecipesList.value = discoverRecipeList
         }
     }
 
-    fun getRecipesList(): Flow<List<Recipe>> {
-        return recipeDao.getRecipes()
+    fun getDiscoverRecipesList(): Flow<List<Recipe>> {
+        return recipeDao.getNotCreatedRecipes()
     }
 
-    fun getFavoriteRecipesList(): Flow<List<Recipe>> {
-        return recipeDao.getFavoriteRecipes()
+    fun getMyRecipesList(): Flow<List<Recipe>> {
+        return recipeDao.getFavoriteAndCreatedRecipes()
     }
 
     fun getAllIngredientsName(): Flow<List<String>> {
@@ -91,6 +95,63 @@ class RecipeViewModel(private val recipeDao: RecipeDao) : ViewModel() {
             recipeDao.delete(recipeId)
         }
     }
+
+    fun applyDiscoverFilters(
+        prepTime: IntRange,
+        cookTime: IntRange,
+        servings: IntRange,
+        selectedIngredients: List<String>
+    ) {
+        _filteredDiscoveredRecipes.value = _discoverRecipesList.value.filter { recipe ->
+            recipe.prepTime in prepTime
+                    &&
+                    recipe.cookTime in cookTime
+                    &&
+                    recipe.servings in servings
+            //&&
+//                    selectedIngredients.all { ingredient ->
+//                        recipe.ingredients.any { it.name == ingredient }
+//                    }
+        }
+        _filtersDiscoverApplied.value = true
+    }
+
+    fun applyMyRecipesFilters(
+        prepTime: IntRange,
+        cookTime: IntRange,
+        servings: IntRange,
+        selectedIngredients: List<String>
+    ) {
+        viewModelScope.launch {
+            val myRecipeList = recipeDao.getMyRecipes()
+            _myRecipesList.value = myRecipeList
+        }
+
+        _filteredMyRecipes.value = _myRecipesList.value.filter { recipe ->
+            recipe.prepTime in prepTime
+                    &&
+                    recipe.cookTime in cookTime
+                    &&
+                    recipe.servings in servings
+            //&&
+//                    selectedIngredients.all { ingredient ->
+//                        recipe.ingredients.any { it.name == ingredient }
+//                    }
+        }
+        _filtersMyRecipesApplied.value = true
+    }
+
+    fun resetDiscoveredFiltersApplied() {
+        _filtersDiscoverApplied.value = false
+    }
+
+    fun resetMyRecipesFiltersApplied() {
+        _filtersMyRecipesApplied.value = false
+    }
+
+    fun getDiscoveredFilteredRecipes(): Flow<List<Recipe>> = _filteredDiscoveredRecipes.asStateFlow()
+
+    fun getMyRecipesFilteredRecipes(): Flow<List<Recipe>> = _filteredMyRecipes.asStateFlow()
 
     fun init() {
         val recipes = listOf(
@@ -248,32 +309,4 @@ class RecipeViewModel(private val recipeDao: RecipeDao) : ViewModel() {
         }
         addAllRecipes(recipes)
     }
-
-    fun applyFilters(
-        prepTime: IntRange,
-        cookTime: IntRange,
-        servings: IntRange,
-        selectedIngredients: List<String>
-    ) {
-        _filteredRecipes.value = _recipesList.value.filter { recipe ->
-            recipe.prepTime in prepTime
-                    &&
-                    recipe.cookTime in cookTime
-                    &&
-                    recipe.servings in servings
-            //&&
-//                    selectedIngredients.all { ingredient ->
-//                        recipe.ingredients.any { it.name == ingredient }
-//                    }
-        }
-        _filtersApplied.value = true
-    }
-
-    fun resetFiltersApplied() {
-        _filtersApplied.value = false // Réinitialise l'état après avoir réagi
-    }
-
-    fun getFilteredRecipes(): Flow<List<Recipe>> = _filteredRecipes.asStateFlow()
-
-
 }

@@ -12,9 +12,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,13 +32,19 @@ import androidx.compose.ui.unit.dp
 import com.valaz.ufrmim_projetdevmob.model.Recipe
 import com.valaz.ufrmim_projetdevmob.ui.components.RawButton
 import com.valaz.ufrmim_projetdevmob.ui.components.RecipeCard
+import com.valaz.ufrmim_projetdevmob.ui.navigation.RecipesScreens
 import com.valaz.ufrmim_projetdevmob.viewmodel.RecipeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyRecipesScreen(recipeVM: RecipeViewModel, onDetails: (Recipe) -> Unit) {
+fun MyRecipesScreen(
+    recipeVM: RecipeViewModel,
+    onDetails: (Recipe) -> Unit,
+    filterScreen: (RecipesScreens) -> Unit
+) {
     var isLoading by remember { mutableStateOf(true) }
-    val recipes = recipeVM.getFavoriteRecipesList().collectAsState(initial = null)
+    val recipes = recipeVM.getMyRecipesList().collectAsState(initial = null)
+    val filtersApplied by recipeVM.filtersMyRecipesApplied.collectAsState()
 
     LaunchedEffect(recipes.value) {
         isLoading = recipes.value == null
@@ -58,10 +66,12 @@ fun MyRecipesScreen(recipeVM: RecipeViewModel, onDetails: (Recipe) -> Unit) {
             active = false,
             onActiveChange = {},
             leadingIcon = {
-                Icon(
-                    imageVector = Icons.Default.FilterList,
-                    contentDescription = Icons.Default.FilterList.name
-                )
+                IconButton(onClick = { filterScreen(RecipesScreens.MyRecipesScreen) }) {
+                    Icon(
+                        imageVector = Icons.Default.FilterList,
+                        contentDescription = Icons.Default.FilterList.name
+                    )
+                }
             },
             placeholder = { Text("Rechercher") },
             trailingIcon = {
@@ -71,8 +81,14 @@ fun MyRecipesScreen(recipeVM: RecipeViewModel, onDetails: (Recipe) -> Unit) {
                 )
             },
         ) {
-
         }
+
+        if (filtersApplied) {
+            Button(onClick = { recipeVM.resetMyRecipesFiltersApplied() }) {
+                Text("Réinitaliser les filtres")
+            }
+        }
+
         if (isLoading) {
             Box(
                 modifier = Modifier.fillMaxSize(),
@@ -80,15 +96,36 @@ fun MyRecipesScreen(recipeVM: RecipeViewModel, onDetails: (Recipe) -> Unit) {
             ) {
                 CircularProgressIndicator()
             }
-        } else if (recipes.value.isNullOrEmpty()) {
-            Text("Vous n'avez aucune recette créée ou favorite")
         } else {
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(15.dp)
-            ) {
-                items(recipes.value!!) { recipe ->
-                    RawButton(onClick = { onDetails(recipe) }) {
-                        RecipeCard(recipe)
+            if (filtersApplied) {
+                val filteredRecipes =
+                    recipeVM.getMyRecipesFilteredRecipes().collectAsState(initial = emptyList())
+
+                if (filteredRecipes.value.isNullOrEmpty()) {
+                    Text("Aucune recette ne correspond à vos filtres")
+                } else {
+                    LazyColumn(
+                        verticalArrangement = Arrangement.spacedBy(15.dp)
+                    ) {
+                        items(filteredRecipes.value) { recipe ->
+                            RawButton(onClick = { onDetails(recipe) }) {
+                                RecipeCard(recipe)
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (recipes.value.isNullOrEmpty()) {
+                    Text("Vous n'avez aucune recette créée ou favorite")
+                } else {
+                    LazyColumn(
+                        verticalArrangement = Arrangement.spacedBy(15.dp)
+                    ) {
+                        items(recipes.value!!) { recipe ->
+                            RawButton(onClick = { onDetails(recipe) }) {
+                                RecipeCard(recipe)
+                            }
+                        }
                     }
                 }
             }

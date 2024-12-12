@@ -1,10 +1,12 @@
 package com.valaz.ufrmim_projetdevmob.ui.navigation
 
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.valaz.ufrmim_projetdevmob.Home
 import com.valaz.ufrmim_projetdevmob.ui.screens.AddRecipeScreen
@@ -59,7 +61,8 @@ fun RecipesNavigationComponent(navController: NavHostController, recipeVM: Recip
                         navController.popBackStack()
                     }
                 },
-                recipeVM = recipeVM
+                recipeVM = recipeVM,
+                screen = recipeVM.currentScreen
             )
         }
     }

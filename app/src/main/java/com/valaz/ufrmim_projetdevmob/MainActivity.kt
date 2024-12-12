@@ -44,7 +44,7 @@ class MainActivity : ComponentActivity() {
 
                 val navController = rememberNavController()
                 val recipeVM = RecipeViewModel(db.recipeDao())
-                recipeVM.init()
+                //recipeVM.init()
                 RecipesNavigationComponent(navController = navController, recipeVM = recipeVM)
             }
         }

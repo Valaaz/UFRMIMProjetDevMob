@@ -4,5 +4,7 @@ enum class RecipesScreens {
     HomeScreen,
     RecipeDetailScreen,
     AddRecipeScreen,
-    FilterScreen
+    FilterScreen,
+    MyRecipesScreen,
+    DiscoverRecipesScreen
 }

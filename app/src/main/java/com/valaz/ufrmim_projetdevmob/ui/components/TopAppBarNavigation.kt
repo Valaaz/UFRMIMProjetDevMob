@@ -11,6 +11,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavOptions
+import androidx.navigation.Navigator
 import com.valaz.ufrmim_projetdevmob.ui.navigation.RecipesScreens
 import com.valaz.ufrmim_projetdevmob.ui.screens.DiscoverRecipesScreen
 import com.valaz.ufrmim_projetdevmob.ui.screens.MyRecipesScreen
@@ -42,13 +44,19 @@ fun TopAppBarNavigation(navController: NavHostController, recipeVM: RecipeViewMo
                 onDetails = { recipe ->
                     recipeVM.setSelectedRecipe(recipe.id ?: -1)
                     navController.navigate(RecipesScreens.RecipeDetailScreen.name)
-                }) else DiscoverRecipesScreen(
+                },
+                filterScreen = {
+                    recipeVM.currentScreen = RecipesScreens.MyRecipesScreen
+                    navController.navigate(RecipesScreens.FilterScreen.name)
+                })
+            else DiscoverRecipesScreen(
                 recipeVM = recipeVM,
                 onDetails = { recipe ->
                     recipeVM.setSelectedRecipe(recipe.id ?: -1)
                     navController.navigate(RecipesScreens.RecipeDetailScreen.name)
                 },
                 filterScreen = {
+                    recipeVM.currentScreen = RecipesScreens.DiscoverRecipesScreen
                     navController.navigate(RecipesScreens.FilterScreen.name)
                 }
             )

@@ -48,7 +48,6 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil3.compose.rememberAsyncImagePainter
 import com.valaz.ufrmim_projetdevmob.model.Ingredient
@@ -139,6 +138,7 @@ fun AddRecipeScreen(backAction: () -> Unit, recipeVM: RecipeViewModel) {
                     recipeVM.addRecipe(
                         Recipe(
                             title = title,
+                            isCreated = true,
                             description = "",
                             prepTime = prepTime,
                             cookTime = cookTime,

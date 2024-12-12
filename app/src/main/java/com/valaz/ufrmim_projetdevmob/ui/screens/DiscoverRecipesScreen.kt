@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import com.valaz.ufrmim_projetdevmob.model.Recipe
 import com.valaz.ufrmim_projetdevmob.ui.components.RawButton
 import com.valaz.ufrmim_projetdevmob.ui.components.RecipeCard
+import com.valaz.ufrmim_projetdevmob.ui.navigation.RecipesScreens
 import com.valaz.ufrmim_projetdevmob.viewmodel.RecipeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -39,11 +40,11 @@ import com.valaz.ufrmim_projetdevmob.viewmodel.RecipeViewModel
 fun DiscoverRecipesScreen(
     recipeVM: RecipeViewModel,
     onDetails: (Recipe) -> Unit,
-    filterScreen: () -> Unit
+    filterScreen: (RecipesScreens) -> Unit
 ) {
     var isLoading by remember { mutableStateOf(true) }
-    val recipes = recipeVM.getRecipesList().collectAsState(initial = null)
-    val filtersApplied by recipeVM.filtersApplied.collectAsState()
+    val recipes = recipeVM.getDiscoverRecipesList().collectAsState(initial = null)
+    val filtersApplied by recipeVM.filtersDiscoverApplied.collectAsState()
 
     LaunchedEffect(recipes.value) {
         isLoading = recipes.value == null
@@ -65,7 +66,7 @@ fun DiscoverRecipesScreen(
             active = false,
             onActiveChange = {},
             leadingIcon = {
-                IconButton(onClick = filterScreen) {
+                IconButton(onClick = { filterScreen(RecipesScreens.DiscoverRecipesScreen) }) {
                     Icon(
                         imageVector = Icons.Default.FilterList,
                         contentDescription = Icons.Default.FilterList.name
@@ -83,7 +84,7 @@ fun DiscoverRecipesScreen(
         }
 
         if (filtersApplied) {
-            Button(onClick = { recipeVM.resetFiltersApplied() }) {
+            Button(onClick = { recipeVM.resetDiscoveredFiltersApplied() }) {
                 Text("Réinitaliser les filtres")
             }
         }
@@ -97,7 +98,7 @@ fun DiscoverRecipesScreen(
             }
         } else {
             if (filtersApplied) {
-                val filteredRecipes = recipeVM.getFilteredRecipes().collectAsState(initial = emptyList())
+                val filteredRecipes = recipeVM.getDiscoveredFilteredRecipes().collectAsState(initial = emptyList())
 
                 if (filteredRecipes.value.isNullOrEmpty()) {
                     Text("Aucune recette ne correspond à vos filtres")

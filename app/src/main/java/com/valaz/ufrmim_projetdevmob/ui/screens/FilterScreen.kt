@@ -40,11 +40,12 @@ import androidx.compose.ui.unit.dp
 import androidx.room.Room
 import com.valaz.ufrmim_projetdevmob.db.AppDatabase
 import com.valaz.ufrmim_projetdevmob.ui.components.IntegerRangeSlider
+import com.valaz.ufrmim_projetdevmob.ui.navigation.RecipesScreens
 import com.valaz.ufrmim_projetdevmob.viewmodel.RecipeViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FilterScreen(backAction: () -> Unit, recipeVM: RecipeViewModel) {
+fun FilterScreen(backAction: () -> Unit, recipeVM: RecipeViewModel, screen: RecipesScreens) {
     val allIngredientsName = recipeVM.getAllIngredientsName().collectAsState(initial = emptyList())
 
     var prepTime by remember {
@@ -170,7 +171,9 @@ fun FilterScreen(backAction: () -> Unit, recipeVM: RecipeViewModel) {
                     modifier = Modifier.align(Alignment.Start)
                 )
                 Column(
-                    modifier = Modifier.fillMaxWidth().wrapContentHeight(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight(),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     horizontalAlignment = Alignment.Start
                 ) {
@@ -203,12 +206,21 @@ fun FilterScreen(backAction: () -> Unit, recipeVM: RecipeViewModel) {
                 }
                 Button(
                     onClick = {
-                        recipeVM.applyFilters(
-                            prepTime = prepTime,
-                            cookTime = cookTime,
-                            servings = servings,
-                            selectedIngredients = selectedIngredients
-                        )
+                        if (screen.equals(RecipesScreens.DiscoverRecipesScreen)) {
+                            recipeVM.applyDiscoverFilters(
+                                prepTime = prepTime,
+                                cookTime = cookTime,
+                                servings = servings,
+                                selectedIngredients = selectedIngredients
+                            )
+                        } else if (screen.equals(RecipesScreens.MyRecipesScreen)) {
+                            recipeVM.applyMyRecipesFilters(
+                                prepTime = prepTime,
+                                cookTime = cookTime,
+                                servings = servings,
+                                selectedIngredients = selectedIngredients
+                            )
+                        }
                         backAction()
                     },
                     modifier = Modifier.fillMaxWidth()
@@ -230,6 +242,7 @@ fun FilterScreenPreview() {
                 context = LocalContext.current,
                 AppDatabase::class.java, "cook-database"
             ).fallbackToDestructiveMigration().build().recipeDao()
-        )
+        ),
+        screen = RecipesScreens.DiscoverRecipesScreen
     )
 }
