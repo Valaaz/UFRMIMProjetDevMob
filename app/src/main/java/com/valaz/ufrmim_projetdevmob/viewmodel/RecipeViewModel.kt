@@ -1,17 +1,37 @@
 package com.valaz.ufrmim_projetdevmob.viewmodel
 
-import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.valaz.ufrmim_projetdevmob.dao.RecipeDao
+import com.valaz.ufrmim_projetdevmob.db.Converters
 import com.valaz.ufrmim_projetdevmob.model.Ingredient
 import com.valaz.ufrmim_projetdevmob.model.Recipe
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class RecipeViewModel(private val recipeDao: RecipeDao) : ViewModel() {
     var selectedRecipeId: Int = -1
+
+    private val _recipesList = MutableStateFlow<List<Recipe>>(emptyList())
+    val recipesList: StateFlow<List<Recipe>> get() = _recipesList
+
+    private val _filteredRecipes = MutableStateFlow<List<Recipe>>(emptyList())
+    val filteredRecipes: StateFlow<List<Recipe>> get() = _filteredRecipes
+
+    private val _filtersApplied = MutableStateFlow(false)
+    val filtersApplied: StateFlow<Boolean> = _filtersApplied
+
+    init {
+        viewModelScope.launch {
+            val recipeList = recipeDao.getAllRecipes()
+            _recipesList.value = recipeList
+        }
+    }
 
     fun getRecipesList(): Flow<List<Recipe>> {
         return recipeDao.getRecipes()
@@ -19,6 +39,16 @@ class RecipeViewModel(private val recipeDao: RecipeDao) : ViewModel() {
 
     fun getFavoriteRecipesList(): Flow<List<Recipe>> {
         return recipeDao.getFavoriteRecipes()
+    }
+
+    fun getAllIngredientsName(): Flow<List<String>> {
+        return recipeDao.getAllIngredients().map { recipeIngredientsList ->
+            recipeIngredientsList.flatMap { ingredientsJson ->
+                Converters().toIngredientList(ingredientsJson)
+            }.map { ingredient ->
+                ingredient.name
+            }.distinct()
+        }
     }
 
     fun getRecipeById(recipeId: Int): Flow<Recipe> {
@@ -219,35 +249,31 @@ class RecipeViewModel(private val recipeDao: RecipeDao) : ViewModel() {
         addAllRecipes(recipes)
     }
 
-    fun init2() {
-        var recipe = Recipe(
-            favorite = true,
-            title = "Poulet au citron et à la crème aux champignons",
-            description = "Une recette savoureuse de poulet mariné au citron et aux herbes, idéale pour un dîner léger.",
-            prepTime = 15,
-            cookTime = 30,
-            servings = 4,
-            imageUrl = "https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-            ingredients = listOf(
-                Ingredient(name = "Filets de poulet", quantity = "600g"),
-                Ingredient(name = "Citron", quantity = "2"),
-                Ingredient(name = "Ail", quantity = "2 gousses"),
-                Ingredient(name = "Huile d'olive", quantity = "3 cuillères à soupe"),
-                Ingredient(name = "Thym", quantity = "1 cuillère à café"),
-                Ingredient(name = "Sel", quantity = "1 pincée"),
-                Ingredient(name = "Poivre", quantity = "1 pincée")
-            ),
-            steps = listOf(
-                "Presser les citrons pour obtenir le jus.",
-                "Mélanger le jus de citron, l'ail haché, le thym, l'huile d'olive, le sel et le poivre.",
-                "Mariner les filets de poulet dans cette préparation pendant 15 minutes.",
-                "Préchauffer une poêle à feu moyen et cuire les filets de poulet pendant 7 minutes de chaque côté."
-            )
-        )
-//        viewModelScope.launch {
-//            recipeDao.clearAll()
-//        }
-        addRecipe(recipe)
+    fun applyFilters(
+        prepTime: IntRange,
+        cookTime: IntRange,
+        servings: IntRange,
+        selectedIngredients: List<String>
+    ) {
+        _filteredRecipes.value = _recipesList.value.filter { recipe ->
+            recipe.prepTime in prepTime
+                    &&
+                    recipe.cookTime in cookTime
+                    &&
+                    recipe.servings in servings
+            //&&
+//                    selectedIngredients.all { ingredient ->
+//                        recipe.ingredients.any { it.name == ingredient }
+//                    }
+        }
+        _filtersApplied.value = true
     }
+
+    fun resetFiltersApplied() {
+        _filtersApplied.value = false // Réinitialise l'état après avoir réagi
+    }
+
+    fun getFilteredRecipes(): Flow<List<Recipe>> = _filteredRecipes.asStateFlow()
+
 
 }

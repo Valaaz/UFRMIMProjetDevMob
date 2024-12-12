@@ -47,6 +47,9 @@ fun TopAppBarNavigation(navController: NavHostController, recipeVM: RecipeViewMo
                 onDetails = { recipe ->
                     recipeVM.setSelectedRecipe(recipe.id ?: -1)
                     navController.navigate(RecipesScreens.RecipeDetailScreen.name)
+                },
+                filterScreen = {
+                    navController.navigate(RecipesScreens.FilterScreen.name)
                 }
             )
         }

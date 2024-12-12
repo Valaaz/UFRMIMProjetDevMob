@@ -9,6 +9,7 @@ import androidx.navigation.compose.rememberNavController
 import com.valaz.ufrmim_projetdevmob.Home
 import com.valaz.ufrmim_projetdevmob.ui.screens.AddRecipeScreen
 import com.valaz.ufrmim_projetdevmob.ui.screens.DiscoverRecipesScreen
+import com.valaz.ufrmim_projetdevmob.ui.screens.FilterScreen
 import com.valaz.ufrmim_projetdevmob.ui.screens.MyRecipesScreen
 import com.valaz.ufrmim_projetdevmob.ui.screens.RecipeDetailScreen
 import com.valaz.ufrmim_projetdevmob.viewmodel.RecipeViewModel
@@ -40,6 +41,19 @@ fun RecipesNavigationComponent(navController: NavHostController, recipeVM: Recip
             route = RecipesScreens.AddRecipeScreen.name
         ) {
             AddRecipeScreen(
+                backAction = {
+                    if (navController.previousBackStackEntry != null) {
+                        navController.popBackStack()
+                    }
+                },
+                recipeVM = recipeVM
+            )
+        }
+
+        composable(
+            route = RecipesScreens.FilterScreen.name
+        ) {
+            FilterScreen(
                 backAction = {
                     if (navController.previousBackStackEntry != null) {
                         navController.popBackStack()
