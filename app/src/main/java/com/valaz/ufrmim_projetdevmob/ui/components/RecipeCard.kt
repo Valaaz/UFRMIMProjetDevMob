@@ -1,6 +1,5 @@
 package com.valaz.ufrmim_projetdevmob.ui.components
 
-import android.icu.text.DecimalFormat
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -8,8 +7,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Timer
@@ -38,14 +37,14 @@ import com.valaz.ufrmim_projetdevmob.model.Recipe
 @Composable
 fun RecipeCard(recipe: Recipe?) {
     val cardPadding = 5.dp
-    val textPadding = 10.dp
+    val linePadding = 10.dp
     val spaceBtwIconText = 5.dp
 
     recipe?.let { recipe ->
         ElevatedCard(
             modifier = Modifier
                 .fillMaxWidth()
-                .wrapContentHeight()
+                .wrapContentHeight(),
         ) {
             Box(modifier = Modifier.fillMaxWidth()) {
                 Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -69,40 +68,33 @@ fun RecipeCard(recipe: Recipe?) {
                                     TextStyle(fontWeight = FontWeight.Bold)
                                 ),
                                 softWrap = true,
-                                modifier = Modifier.weight(1f)
+                                modifier = Modifier.weight(1f).padding(end = 5.dp)
                             )
                             PersonNumber(recipe = recipe)
                         }
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(spaceBtwIconText)
+                            horizontalArrangement = Arrangement.spacedBy(spaceBtwIconText),
+                            modifier = Modifier.padding(start = linePadding)
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Timer,
                                 contentDescription = Icons.Default.Timer.name,
                                 modifier = Modifier.size(10.dp)
                             )
-                            Text(
-                                text = "Temps de préparation : ${
-                                    DecimalFormat("#.##").format(
-                                        recipe.prepTime
-                                    )
-                                } min", modifier = Modifier.padding(start = textPadding)
-                            )
+                            Text(text = "Temps de préparation : ${recipe.prepTime} min")
                         }
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(spaceBtwIconText)
+                            horizontalArrangement = Arrangement.spacedBy(spaceBtwIconText),
+                            modifier = Modifier.padding(start = linePadding)
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Timer,
                                 contentDescription = Icons.Default.Timer.name,
                                 modifier = Modifier.size(10.dp)
                             )
-                            Text(
-                                text = "Temps de cuisson : ${DecimalFormat("#.##").format(recipe.cookTime)} min",
-                                modifier = Modifier.padding(start = textPadding)
-                            )
+                            Text(text = "Temps de cuisson : ${recipe.cookTime} min")
                         }
                     }
                 }
@@ -116,13 +108,7 @@ fun RecipeCard(recipe: Recipe?) {
 @Composable
 fun PersonNumber(recipe: Recipe?) {
     Card(
-        colors = CardColors(
-            containerColor = Color.Cyan,
-            contentColor = Color.Black,
-            disabledContentColor = Color.Gray,
-            disabledContainerColor = Color.Black
-        ),
-        modifier = Modifier.width(35.dp)
+        modifier = Modifier.wrapContentWidth()
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,

@@ -1,9 +1,11 @@
 package com.valaz.ufrmim_projetdevmob.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
@@ -26,7 +28,7 @@ fun TopAppBarNavigation(navController: NavHostController, recipeVM: RecipeViewMo
         val coroutineScope = rememberCoroutineScope()
         val recipeVM = recipeVM
 
-        TabRow(selectedTabIndex = pagerState.currentPage) {
+        TabRow(selectedTabIndex = pagerState.currentPage, Modifier.background(MaterialTheme.colorScheme.primary)) {
             Tab(
                 selected = pagerState.currentPage == 0,
                 text = { Text(text = "Mes Recettes") },
