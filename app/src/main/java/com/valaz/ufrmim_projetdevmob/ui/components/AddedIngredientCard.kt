@@ -66,7 +66,7 @@ fun DeleteIcon(deleteIngredient: () -> Unit) {
         horizontalArrangement = Arrangement.spacedBy(5.dp),
         modifier = Modifier.padding(end = 5.dp)
     ) {
-        VerticalDivider(modifier = Modifier.height(40.dp))
+        VerticalDivider(modifier = Modifier.height(20.dp))
         IconButton(onClick = { deleteIngredient() }) {
             Icon(
                 imageVector = Icons.Outlined.DeleteForever,

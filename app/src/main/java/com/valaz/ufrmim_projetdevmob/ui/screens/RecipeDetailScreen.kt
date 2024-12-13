@@ -150,8 +150,11 @@ fun RecipeDetailScreen(backAction: () -> Unit, recipe: Recipe?, recipeVM: Recipe
                     IngredientsSection(ingredients = recipe.ingredients)
                     HorizontalDivider()
                     StepsSection(steps = recipe.steps)
-                    Button(onClick = { recipe.id?.let { recipeVM.deleteRecipe(it) } }) {
-                        Text("Supprimer cette recette")
+
+                    if (recipe.isCreated) {
+                        Button(onClick = { recipe.id?.let { recipeVM.deleteRecipe(it) } }) {
+                            Text("Supprimer cette recette")
+                        }
                     }
                 }
             } ?: run {

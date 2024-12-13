@@ -267,7 +267,6 @@ fun IngredientsSection(
             modifier = Modifier.fillMaxWidth()
         )
         Column(
-            verticalArrangement = Arrangement.spacedBy(15.dp),
         ) {
             ingredients.forEach { ingredient ->
                 AddedIngredientCard(

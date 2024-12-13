@@ -52,16 +52,10 @@ fun AddStepDialog(
             ) {
                 CenterAlignedTopAppBar(
                     title = {
-                        if (step != null)
-                            Text(
-                                "Modifier étape ${stepNumber}",
-                                color = MaterialTheme.colorScheme.onPrimary,
-                            )
-                        else
-                            Text(
-                                "Ajouter une étape",
-                                color = MaterialTheme.colorScheme.onPrimary,
-                            )
+                        Text(
+                            "Etape ${stepNumber}",
+                            color = MaterialTheme.colorScheme.onPrimary,
+                        )
                     },
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = MaterialTheme.colorScheme.primary

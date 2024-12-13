@@ -56,7 +56,7 @@ fun NumberInputField(value: Int, onValueChange: (Int) -> Unit, size: Dp) {
             value = value.toString(),
             onValueChange = { newValue ->
                 val numericValue = newValue.toIntOrNull()
-                if (numericValue != null && numericValue in 1..999) {
+                if (numericValue != null && numericValue in 1..120) {
                     onValueChange(numericValue)
                 }
             },
@@ -79,7 +79,7 @@ fun NumberInputField(value: Int, onValueChange: (Int) -> Unit, size: Dp) {
         VerticalDivider(Modifier.border(width = 1.dp, color = lineColor))
         IconButton(
             onClick = {
-                val newValue = (value + 1).coerceAtMost(999)
+                val newValue = (value + 1).coerceAtMost(120)
                 onValueChange(newValue)
             },
             modifier = Modifier.size(size)
