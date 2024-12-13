@@ -46,18 +46,19 @@ import com.valaz.ufrmim_projetdevmob.viewmodel.RecipeViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FilterScreen(backAction: () -> Unit, recipeVM: RecipeViewModel, screen: RecipesScreens) {
+    val rangePadding = 15.dp
     val allIngredientsName = recipeVM.getAllIngredientsName().collectAsState(initial = emptyList())
 
     var prepTime by remember {
-        mutableStateOf(0..999)
+        mutableStateOf(0..120)
     }
 
     var cookTime by remember {
-        mutableStateOf(0..999)
+        mutableStateOf(0..120)
     }
 
     var servings by remember {
-        mutableStateOf(0..100)
+        mutableStateOf(0..120)
     }
 
     var selectedIngredients by remember {
@@ -116,10 +117,11 @@ fun FilterScreen(backAction: () -> Unit, recipeVM: RecipeViewModel, screen: Reci
                 IntegerRangeSlider(
                     range = prepTime,
                     onRangeChange = { prepTime = it },
-                    valueRange = 0..999
+                    valueRange = 0..120,
+                    modifier = Modifier.padding(start = rangePadding, end = rangePadding)
                 )
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().padding(start = rangePadding, end = rangePadding),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text("${prepTime.start} min")
@@ -135,10 +137,11 @@ fun FilterScreen(backAction: () -> Unit, recipeVM: RecipeViewModel, screen: Reci
                 IntegerRangeSlider(
                     range = cookTime,
                     onRangeChange = { cookTime = it },
-                    valueRange = 0..999
+                    valueRange = 0..120,
+                    modifier = Modifier.padding(start = rangePadding, end = rangePadding)
                 )
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().padding(start = rangePadding, end = rangePadding),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text("${cookTime.start} min")
@@ -154,10 +157,11 @@ fun FilterScreen(backAction: () -> Unit, recipeVM: RecipeViewModel, screen: Reci
                 IntegerRangeSlider(
                     range = servings,
                     onRangeChange = { servings = it },
-                    valueRange = 0..100
+                    valueRange = 0..100,
+                    modifier = Modifier.padding(start = rangePadding, end = rangePadding)
                 )
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().padding(start = rangePadding, end = rangePadding),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text("${servings.start}")
