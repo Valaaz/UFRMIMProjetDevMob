@@ -46,6 +46,13 @@ fun DiscoverRecipesScreen(
     val recipes = recipeVM.getDiscoverRecipesList().collectAsState(initial = null)
     val filtersApplied by recipeVM.filtersDiscoverApplied.collectAsState()
 
+    var searchQuery by remember { mutableStateOf("") }
+
+    // Filtrer les recettes en fonction de la requête de recherche
+    val filteredRecipes = recipes.value?.filter {
+        it.title.contains(searchQuery, ignoreCase = true)
+    } ?: emptyList()
+
     LaunchedEffect(recipes.value) {
         isLoading = recipes.value == null
     }
@@ -60,8 +67,10 @@ fun DiscoverRecipesScreen(
         SearchBar(
             modifier = Modifier.fillMaxWidth(),
             windowInsets = WindowInsets(top = 0.dp),
-            query = "",
-            onQueryChange = {},
+            query = searchQuery,
+            onQueryChange = { query ->
+                searchQuery = query
+            },
             onSearch = {},
             active = false,
             onActiveChange = {},
@@ -98,15 +107,17 @@ fun DiscoverRecipesScreen(
             }
         } else {
             if (filtersApplied) {
-                val filteredRecipes = recipeVM.getDiscoveredFilteredRecipes().collectAsState(initial = emptyList())
+                val filteredByFilters = recipeVM.getDiscoveredFilteredRecipes().collectAsState(initial = emptyList())
 
-                if (filteredRecipes.value.isNullOrEmpty()) {
+                if (filteredByFilters.value.isNullOrEmpty()) {
                     Text("Aucune recette ne correspond à vos filtres")
                 } else {
                     LazyColumn(
                         verticalArrangement = Arrangement.spacedBy(15.dp)
                     ) {
-                        items(filteredRecipes.value) { recipe ->
+                        items(filteredByFilters.value.filter {
+                            it.title.contains(searchQuery, ignoreCase = true)
+                        }) { recipe ->
                             RawButton(onClick = { onDetails(recipe) }) {
                                 RecipeCard(recipe)
                             }
@@ -114,13 +125,13 @@ fun DiscoverRecipesScreen(
                     }
                 }
             } else {
-                if (recipes.value.isNullOrEmpty()) {
-                    Text("Vous n'avez aucune recette créée ou favorite")
+                if (filteredRecipes.isEmpty()) {
+                    Text("Aucune recette ne correspond à votre recherche")
                 } else {
                     LazyColumn(
                         verticalArrangement = Arrangement.spacedBy(15.dp)
                     ) {
-                        items(recipes.value!!) { recipe ->
+                        items(filteredRecipes) { recipe ->
                             RawButton(onClick = { onDetails(recipe) }) {
                                 RecipeCard(recipe)
                             }
