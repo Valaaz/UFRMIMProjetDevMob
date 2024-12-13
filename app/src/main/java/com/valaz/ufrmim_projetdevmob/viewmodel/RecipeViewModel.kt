@@ -162,7 +162,7 @@ class RecipeViewModel(private val recipeDao: RecipeDao) : ViewModel() {
                 prepTime = 15,
                 cookTime = 30,
                 servings = 4,
-                imageUrl = "https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+                imageUrl = "https://images.radio-canada.ca/v1/alimentation/recette/1x1/poulet-olives-citrons.jpg",
                 ingredients = listOf(
                     Ingredient(name = "Filets de poulet", quantity = "600g"),
                     Ingredient(name = "Citron", quantity = "2"),
@@ -186,7 +186,7 @@ class RecipeViewModel(private val recipeDao: RecipeDao) : ViewModel() {
                 prepTime = 20,
                 cookTime = 40,
                 servings = 6,
-                imageUrl = "https://example.com/images/soupe-legumes-hiver.jpg",
+                imageUrl = "https://img.cuisineaz.com/660x660/2018/03/19/i137990-soupe-aux-legumes-d-hiver.jpeg",
                 ingredients = listOf(
                     Ingredient(name = "Carottes", quantity = "500g"),
                     Ingredient(name = "Pommes de terre", quantity = "300g"),
@@ -211,7 +211,7 @@ class RecipeViewModel(private val recipeDao: RecipeDao) : ViewModel() {
                 prepTime = 20,
                 cookTime = 35,
                 servings = 6,
-                imageUrl = "https://example.com/images/tarte-aux-pommes.jpg",
+                imageUrl = "https://assets.afcdn.com/recipe/20220128/128250_w1024h1024c1cx1294cy688cxt0cyt0cxb2037cyb1472.webp",
                 ingredients = listOf(
                     Ingredient(name = "Pâte feuilletée", quantity = "1 rouleau"),
                     Ingredient(name = "Pommes", quantity = "4"),
@@ -235,7 +235,7 @@ class RecipeViewModel(private val recipeDao: RecipeDao) : ViewModel() {
                 prepTime = 15,
                 cookTime = 45,
                 servings = 4,
-                imageUrl = "https://example.com/images/ratatouille.jpg",
+                imageUrl = "https://www.julieandrieu.com/media/cache/web_recipe_detail/uploads/recettes/vegetarien/ratatouille-comme-a-nice.jpg",
                 ingredients = listOf(
                     Ingredient(name = "Courgettes", quantity = "2"),
                     Ingredient(name = "Aubergines", quantity = "2"),
@@ -262,7 +262,7 @@ class RecipeViewModel(private val recipeDao: RecipeDao) : ViewModel() {
                 prepTime = 15,
                 cookTime = 25,
                 servings = 8,
-                imageUrl = "https://example.com/images/brownies-chocolat.jpg",
+                imageUrl = "https://assets.afcdn.com/recipe/20161114/26634_w1024h768c1cx2736cy1824.webp",
                 ingredients = listOf(
                     Ingredient(name = "Chocolat noir", quantity = "200g"),
                     Ingredient(name = "Beurre", quantity = "150g"),
@@ -285,7 +285,7 @@ class RecipeViewModel(private val recipeDao: RecipeDao) : ViewModel() {
                 prepTime = 10,
                 cookTime = 15,
                 servings = 4,
-                imageUrl = "https://example.com/images/pates-carbonara.jpg",
+                imageUrl = "https://assets.afcdn.com/recipe/20211214/125831_w1024h1024c1cx866cy866cxt0cyt292cxb1732cyb1732.jpg",
                 ingredients = listOf(
                     Ingredient(name = "Spaghetti", quantity = "400g"),
                     Ingredient(name = "Lardons", quantity = "150g"),
@@ -301,6 +301,141 @@ class RecipeViewModel(private val recipeDao: RecipeDao) : ViewModel() {
                     "Mélanger la crème, les jaunes d'œufs et le parmesan dans un bol.",
                     "Égoutter les pâtes et les mélanger avec les lardons et la sauce.",
                     "Servir chaud avec un peu de parmesan sur le dessus."
+                )
+            ),
+            Recipe(
+                favorite = false,
+                title = "Quiche Lorraine",
+                description = "Une tarte salée classique française garnie de lardons, de crème et de fromage.",
+                prepTime = 20,
+                cookTime = 35,
+                servings = 6,
+                imageUrl = "https://assets.afcdn.com/recipe/20221010/135915_w1024h1024c1cx999cy749cxt0cyt0cxb1999cyb1499.jpg",
+                ingredients = listOf(
+                    Ingredient(name = "Pâte brisée", quantity = "1 rouleau"),
+                    Ingredient(name = "Lardons", quantity = "200 g"),
+                    Ingredient(name = "Crème fraîche", quantity = "200 ml"),
+                    Ingredient(name = "Œufs", quantity = "3"),
+                    Ingredient(name = "Fromage râpé", quantity = "100 g"),
+                    Ingredient(name = "Sel", quantity = "1 pincée"),
+                    Ingredient(name = "Poivre", quantity = "1 pincée"),
+                    Ingredient(name = "Muscade", quantity = "1 pincée")
+                ),
+                steps = listOf(
+                    "Préchauffer le four à 180°C.",
+                    "Étaler la pâte dans un moule à tarte et piquer le fond avec une fourchette.",
+                    "Faire revenir les lardons à la poêle.",
+                    "Mélanger les œufs, la crème, le sel, le poivre et la muscade.",
+                    "Répartir les lardons sur la pâte, verser le mélange par-dessus et saupoudrer de fromage.",
+                    "Cuire au four pendant 35 minutes."
+                )
+            ),
+            Recipe(
+                favorite = false,
+                title = "Poulet Basquaise",
+                description = "Un plat traditionnel du Pays Basque composé de poulet mijoté avec des poivrons et des tomates.",
+                prepTime = 15,
+                cookTime = 40,
+                servings = 4,
+                imageUrl = "https://jemangefrancais.com/img/cms/image%20dillustration%20poulet%20basquaise.jpg",
+                ingredients = listOf(
+                    Ingredient(name = "Cuisses de poulet", quantity = "4"),
+                    Ingredient(name = "Poivrons rouges", quantity = "2"),
+                    Ingredient(name = "Poivrons verts", quantity = "2"),
+                    Ingredient(name = "Tomates", quantity = "4"),
+                    Ingredient(name = "Oignon", quantity = "1"),
+                    Ingredient(name = "Ail", quantity = "2 gousses"),
+                    Ingredient(name = "Huile d'olive", quantity = "3 cuillères à soupe"),
+                    Ingredient(name = "Vin blanc", quantity = "100 ml"),
+                    Ingredient(name = "Sel", quantity = "1 pincée"),
+                    Ingredient(name = "Poivre", quantity = "1 pincée")
+                ),
+                steps = listOf(
+                    "Faire dorer les cuisses de poulet dans une cocotte avec l'huile d'olive.",
+                    "Ajouter l'oignon émincé, l'ail haché et les poivrons en lamelles.",
+                    "Incorporer les tomates coupées en dés et déglacer avec le vin blanc.",
+                    "Saler, poivrer et laisser mijoter à feu doux pendant 40 minutes."
+                )
+            ),
+            Recipe(
+                favorite = false,
+                title = "Gratin Dauphinois",
+                description = "Un gratin crémeux à base de pommes de terre et de crème, un classique français.",
+                prepTime = 15,
+                cookTime = 50,
+                servings = 6,
+                imageUrl = "https://assets.afcdn.com/recipe/20201217/116563_w1024h768c1cx1116cy671cxt0cyt0cxb2232cyb1342.webp",
+                ingredients = listOf(
+                    Ingredient(name = "Pommes de terre", quantity = "1 kg"),
+                    Ingredient(name = "Crème fraîche", quantity = "400 ml"),
+                    Ingredient(name = "Lait", quantity = "200 ml"),
+                    Ingredient(name = "Ail", quantity = "1 gousse"),
+                    Ingredient(name = "Fromage râpé", quantity = "100 g"),
+                    Ingredient(name = "Sel", quantity = "1 pincée"),
+                    Ingredient(name = "Poivre", quantity = "1 pincée"),
+                    Ingredient(name = "Muscade", quantity = "1 pincée")
+                ),
+                steps = listOf(
+                    "Préchauffer le four à 180°C.",
+                    "Éplucher et couper les pommes de terre en fines rondelles.",
+                    "Frotter un plat à gratin avec la gousse d'ail.",
+                    "Mélanger la crème, le lait, le sel, le poivre et la muscade.",
+                    "Disposer les pommes de terre en couches dans le plat, en les recouvrant du mélange à chaque couche.",
+                    "Parsemer de fromage râpé et cuire au four pendant 50 minutes."
+                )
+            ),
+            Recipe(
+                favorite = false,
+                title = "Soupe à l'Oignon",
+                description = "Une soupe réconfortante composée d'oignons caramélisés et gratinée au fromage.",
+                prepTime = 10,
+                cookTime = 40,
+                servings = 4,
+                imageUrl = "https://media.istockphoto.com/id/601123554/fr/photo/gratin-de-soupe-%C3%A0-loignon-%C3%A0-la-fran%C3%A7aise.jpg?s=612x612&w=0&k=20&c=AaTmz2BlUBEGzn9nEugt8-e6M3Q7N5CrmB_Z91v3B_k=",
+                ingredients = listOf(
+                    Ingredient(name = "Oignons", quantity = "6"),
+                    Ingredient(name = "Beurre", quantity = "50 g"),
+                    Ingredient(name = "Farine", quantity = "2 cuillères à soupe"),
+                    Ingredient(name = "Bouillon de bœuf", quantity = "1 litre"),
+                    Ingredient(name = "Vin blanc", quantity = "100 ml"),
+                    Ingredient(name = "Pain", quantity = "4 tranches"),
+                    Ingredient(name = "Fromage râpé", quantity = "100 g"),
+                    Ingredient(name = "Sel", quantity = "1 pincée"),
+                    Ingredient(name = "Poivre", quantity = "1 pincée")
+                ),
+                steps = listOf(
+                    "Émincer les oignons et les faire caraméliser dans une casserole avec le beurre.",
+                    "Ajouter la farine et bien mélanger.",
+                    "Incorporer le bouillon et le vin blanc, puis laisser mijoter 30 minutes.",
+                    "Verser la soupe dans des bols, déposer une tranche de pain, parsemer de fromage et gratiner au four."
+                )
+            ),
+            Recipe(
+                favorite = false,
+                title = "Bœuf Bourguignon",
+                description = "Un ragoût de bœuf mijoté avec du vin rouge et des légumes, une spécialité bourguignonne.",
+                prepTime = 20,
+                cookTime = 150,
+                servings = 6,
+                imageUrl = "https://img.cuisineaz.com/660x660/2013/12/20/i73725-boeuf-bourguignon.jpg",
+                ingredients = listOf(
+                    Ingredient(name = "Viande de bœuf", quantity = "1 kg"),
+                    Ingredient(name = "Vin rouge", quantity = "750 ml"),
+                    Ingredient(name = "Carottes", quantity = "3"),
+                    Ingredient(name = "Oignons", quantity = "2"),
+                    Ingredient(name = "Lardons", quantity = "200 g"),
+                    Ingredient(name = "Champignons", quantity = "200 g"),
+                    Ingredient(name = "Farine", quantity = "2 cuillères à soupe"),
+                    Ingredient(name = "Bouquet garni", quantity = "1"),
+                    Ingredient(name = "Huile", quantity = "2 cuillères à soupe"),
+                    Ingredient(name = "Sel", quantity = "1 pincée"),
+                    Ingredient(name = "Poivre", quantity = "1 pincée")
+                ),
+                steps = listOf(
+                    "Faire revenir la viande coupée en morceaux dans une cocotte avec de l'huile.",
+                    "Ajouter les oignons et les lardons, puis saupoudrer de farine.",
+                    "Incorporer les carottes en rondelles, les champignons, le vin rouge et le bouquet garni.",
+                    "Saler, poivrer et laisser mijoter à feu doux pendant 2h30."
                 )
             )
         )
